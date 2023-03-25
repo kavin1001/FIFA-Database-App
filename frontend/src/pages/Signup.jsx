@@ -1,4 +1,5 @@
 import {useState} from "react";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { UserStore } from "../context/UserStore";
 
@@ -33,11 +34,11 @@ function Signup() {
                 last: lastName,
                 birth: birthday,
             }
-            // const res = await axios.post("http://localhost:8080/api/user/create", body);
-            // if (res.status === 200) {
-            //   await login(username, password);
-            //   navigate("/");
-            // }
+            const res = await axios.post("http://localhost:8080/api/user/create", body);
+            if (res.status === 200) {
+              await login(username, password);
+              navigate("/");
+            }
             
       
           } catch (e) {
