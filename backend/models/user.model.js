@@ -6,10 +6,10 @@ console.log(process.env.AWS_ACCESS_KEY_ID);
 console.log(process.env.AWS_SECRET_ACCESS_KEY);
 
 const config = {
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  sessionToken: process.env.AWS_SESSION_TOKEN,
+  region: "us-east-1",
+  accessKeyId: "",
+  secretAccessKey: "",
+  sessionToken: "",
 };
 
 var db = new AWS.DynamoDB(config);
@@ -23,17 +23,6 @@ function cleanUser(obj) {
   cleaned["first"] = obj.first.S;
   cleaned["last"] = obj.last.S;
   cleaned["birth"] = obj.birth.S;
-  const new_list = [];
-  for (var i = 0; i < obj.interests.L.length; i++) {
-    new_list.push(obj.interests.L[i].S);
-  }
-  cleaned["interests"] = new_list;
-  cleaned["numPosts"] = obj.numPosts.N;
-  const new_list_chats = [];
-  for (var i = 0; i < obj.chats.L.length; i++) {
-    new_list_chats.push(obj.chats.L[i].S);
-  }
-  cleaned["chats"] = new_list_chats;
   cleaned["last_login"] = obj.last_login.S;
   return cleaned;
 }
@@ -85,10 +74,6 @@ var myDB_allusers = async function () {
 };
 
 var myDB_createUser = async function (userDict) {
-  const new_list = [];
-  for (var i = 0; i < userDict.interests.length; i++) {
-    new_list.push({ S: userDict.interests[i] });
-  }
   var params = {
     Item: {
       username: { S: userDict.username },
@@ -97,9 +82,7 @@ var myDB_createUser = async function (userDict) {
       email: { S: userDict.email },
       first: { S: userDict.first },
       last: { S: userDict.last },
-      affiliation: { S: userDict.affiliation },
       birth: { S: userDict.birth },
-      interests: { L: new_list },
       numPosts: { N: userDict.numPosts.toString() },
       last_login: { S: userDict.last_login },
       chats: { L: userDict.chats },
@@ -150,8 +133,6 @@ var myDB_updateUser = async function (dict) {
       ":email": dict.email,
       ":salt": dict.salt,
       ":hash": dict.hash,
-      ":affiliation": dict.affiliation,
-      ":interests": dict.interests,
     },
     TableName: "users",
     ReturnValues: "ALL_NEW", // should return dict of all attributes of item, may need to double check what is returned
