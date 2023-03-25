@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 
 const http = require('http').Server(app);
+const cors = require('cors');
 
 const router = require('./routes/index.js');
 
