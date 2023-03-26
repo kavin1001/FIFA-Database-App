@@ -1,0 +1,9 @@
+{
+    "rds_host": "football.crk9w1qr57il.us-east-1.rds.amazonaws.com",
+    "rds_port": "3306",
+    "rds_user": "admin",
+    "rds_password" : "footballerz",
+    "rds_db": "football",
+    "server_host": "localhost",
+    "server_port":"8080"
+  }
