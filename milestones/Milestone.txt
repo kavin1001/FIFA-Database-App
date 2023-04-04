@@ -1,0 +1,221 @@
+Basic Queries
+
+Query #1:
+```
+select * from Player_Attributes PA
+join Player P on P.player_api_id = PA.player_api_id
+where P.player_api_id = {INSERT PLAYER_API_ID}
+```
+
+Select a player from Player and Player Attributes to analyze the player's progression (time-series) across various attributes
+
+Query #2:
+```
+select *, max(date) from Player_Attributes PA
+join Player P on P.player_api_id = PA.player_api_id
+where P.player_api_id in (INSERT PLAYER_API_ID 1, INSERT PLAYER_API_ID 2, INSERT PLAYER_API_ID 3)
+group by PA.player_api_id
+```
+
+Select multiple players from Player and Player Attributes to compare the players across across various attributes, picking the most recent attribute for each player
+
+
+Query #3:
+```
+select P.id, PA.id, P.player_fifa_api_id, P.player_api_id, player_name, {INSERT DESIRED ATTRIBUTES}
+from Player_Attributes PA
+join Player P on P.player_api_id = PA.player_api_id
+where P.player_api_id = {INSERT PLAYER_API_ID}
+```
+
+Select a player from Player and Player Attributes and then filters the query result based on desired attributes
+
+Query #4:
+```
+ALTER TABLE Player ADD FULLTEXT(player_name);
+
+SELECT id, player_fifa_api_id, player_api_id, player_name, birthday FROM Player
+WHERE MATCH(player_name) AGAINST('{INSERT SEARCH TERM}');
+```
+
+Natural language search in order to select the needed information (ids, name, birthday) to appear in search bar
+
+Query #5:
+```
+select *
+from Team T
+join Team_Attributes TA on T.team_api_id = TA.team_api_id
+where T.team_api_id = 9987;
+```
+
+Selects a team from Team and Team Attributes to analyze the team's progression (time-series) across various attributes
+
+Query #6:
+```
+select *
+from Matches
+where home_team_api_id = 9987 OR away_team_api_id = 9987;
+```
+
+Selects the matches that a team has played in
+
+Complex Queries
+
+Query #7:
+```
+WITH Overall_Rating AS (
+    SELECT player_api_id, AVG(overall_rating) AS overall_rating
+    FROM Player_Attributes
+    GROUP BY player_api_id
+), Ratings AS (
+    SELECT M.id, country_id, league_id, season, stage, M.date, match_api_id, home_team_api_id, away_team_api_id, home_team_goal, away_team_goal,
+       P1.player_name AS hp1_name, P1.player_api_id AS hp1_id, P2.player_name AS hp2_name, P2.player_api_id AS hp2_id, P3.player_name AS hp3_name, P3.player_api_id AS hp3_id, P4.player_name AS hp4_name, P4.player_api_id AS hp4_id, P5.player_name AS hp5_name, P5.player_api_id AS hp5_id, P6.player_name AS hp6_name, P6.player_api_id AS hp6_id, P7.player_name AS hp7_name, P7.player_api_id AS hp7_id, P8.player_name AS hp8_name, P8.player_api_id AS hp8_id, P9.player_name AS hp9_name, P9.player_api_id AS hp9_id, P10.player_name AS hp10_name, P10.player_api_id AS hp10_id, P11.player_name AS hp11_name, P11.player_api_id AS hp11_id,
+       PA1.overall_rating AS hp1_rating, PA2.overall_rating AS hp2_rating, PA3.overall_rating AS hp3_rating, PA4.overall_rating AS hp4_rating, PA5.overall_rating AS hp5_rating,  PA6.overall_rating AS hp6_rating
+    FROM Matches M
+    JOIN Player P1 ON M.home_player_1 = P1.player_api_id
+    JOIN Player P2 ON M.home_player_2 = P2.player_api_id
+    JOIN Player P3 ON M.home_player_3 = P3.player_api_id
+    JOIN Player P4 ON M.home_player_4 = P4.player_api_id
+    JOIN Player P5 ON M.home_player_5 = P5.player_api_id
+    JOIN Player P6 ON M.home_player_6 = P6.player_api_id
+    JOIN Player P7 ON M.home_player_7 = P7.player_api_id
+    JOIN Player P8 ON M.home_player_8 = P8.player_api_id
+    JOIN Player P9 ON M.home_player_9 = P9.player_api_id
+    JOIN Player P10 ON M.home_player_10 = P10.player_api_id
+    JOIN Player P11 ON M.home_player_11 = P11.player_api_id
+    JOIN Overall_Rating PA1 on P1.player_api_id = PA1.player_api_id
+    JOIN Overall_Rating PA2 on P2.player_api_id = PA2.player_api_id
+    JOIN Overall_Rating PA3 on P3.player_api_id = PA3.player_api_id
+    JOIN Overall_Rating PA4 on P4.player_api_id = PA4.player_api_id
+    JOIN Overall_Rating PA5 on P5.player_api_id = PA5.player_api_id
+    JOIN Overall_Rating PA6 on P6.player_api_id = PA6.player_api_id
+), Goalkeepers AS (
+    SELECT id, country_id, league_id, season, stage, date, match_api_id, home_team_api_id, home_team_goal, away_team_goal, hp1_name, hp1_id, hp1_rating
+    FROM Ratings
+    WHERE hp1_rating >= hp2_rating OR hp1_rating >= hp3_rating OR hp1_rating >= hp4_rating OR hp1_rating >= hp5_rating OR hp1_rating >= hp6_rating
+    AND EXISTS (SELECT COUNT(*) AS num_matches FROM Matches WHERE home_player_1 = hp1_id GROUP BY home_player_1 HAVING num_matches >= 10)
+), Filtered AS (
+    SELECT G.id, country_id, league_id, season, stage, G.date, match_api_id, home_team_api_id, home_team_goal, away_team_goal, hp1_name, hp1_id, hp1_rating, overall_rating
+    FROM Goalkeepers G JOIN Player_Attributes PA ON hp1_id = player_api_id AND YEAR(G.date) = YEAR(PA.date)
+)
+
+SELECT *
+FROM Filtered
+```
+
+Selects all games and goalkeepers where the home_goalkeeper for the game has an average overall_rating across all years that is better than at least one of the other defensive players and the goalkeeper has played in at least 10 games.
+
+Query #8:
+```
+with players as (select home_team_api_id, country_id,
+                       case
+                           when PA7.overall_rating >= PA9.overall_rating AND PA7.overall_rating >= PA10.overall_rating AND PA7.overall_rating >= PA11.overall_rating
+                               then home_player_7
+                           when PA9.overall_rating >= PA7.overall_rating AND PA9.overall_rating >= PA10.overall_rating AND PA9.overall_rating >= PA11.overall_rating
+                               then home_player_9
+                           when PA10.overall_rating >= PA7.overall_rating AND PA10.overall_rating >= PA9.overall_rating AND PA10.overall_rating >= PA11.overall_rating
+                               then home_player_10
+                           else home_player_11
+                       end as best_player_id
+from Matches M
+join Player_Attributes PA7 on M.away_player_7 = PA7.player_api_id
+join Player_Attributes PA9 on M.away_player_9 = PA9.player_api_id
+join Player_Attributes PA10 on M.away_player_10 = PA10.player_api_id
+join Player_Attributes PA11 on M.away_player_11 = PA11.player_api_id
+where league_id = {INSERT LEAGUE ID} and season = {INSERT SEASON}
+group by home_team_api_id)
+select home_team_api_id, team_long_name, country_id, C.name as country_name, best_player_id as player_api_id, player_name, overall_rating from players
+join Player P on P.player_api_id = players.best_player_id
+left join Player_Attributes PA on P.player_api_id = PA.player_api_id
+left join Country C on C.id = players.country_id
+left join Team T on players.home_team_api_id = T.team_api_id
+group by home_team_api_id;
+```
+
+For each team in a given league that played in a given season, list the team's name, country, and the overall rating and name of the player on that team with the highest overall rating.
+
+
+Query #9:
+```
+SELECT player_api_id, player_name FROM Player p WHERE EXISTS (
+   SELECT numTeams FROM (
+       SELECT COUNT(teams) AS numTeams FROM (
+           (SELECT DISTINCT home_team_api_id AS teams
+           FROM Matches
+           WHERE p.player_api_id IN (
+               home_player_1,
+               home_player_2,
+               home_player_3,
+               home_player_4,
+               home_player_5,
+               home_player_6,
+               home_player_7,
+               home_player_8,
+               home_player_9,
+               home_player_10,
+               home_player_11
+           )
+           UNION
+           SELECT DISTINCT away_team_api_id AS teams
+           FROM Matches
+           WHERE p.player_api_id IN (
+               away_player_1,
+               away_player_2,
+               away_player_3,
+               away_player_4,
+               away_player_5,
+               away_player_6,
+               away_player_7,
+               away_player_8,
+               away_player_9,
+               away_player_10,
+               away_player_11
+           ))
+       ) A
+   ) B WHERE numTeams >= 2
+);
+```
+
+Getting matches that a player has played requires us to check over 22 players of a match. The above query allows us to do this through several subqueries and aggregations, along with union. We find matches where a player has played (as either home or away), and their team associated with that match. We then find the unique ones, unioning both between the home and away matches, allowing us to then filter for only players that have at least 2 different teams (either home or away). 
+
+
+Query #10:
+```
+WITH match_players AS (SELECT date,
+                              season,
+                              match_api_id,
+                              home_team_goal AS home_score,
+                              away_team_goal AS away_score,
+                              home_team_api_id AS home_team,
+                              CONCAT(home_player_1, ' ', home_player_2, ' ', home_player_3, ' ', home_player_4, ' ',
+                                     home_player_5, ' ', home_player_6, ' ', home_player_7, ' ', home_player_8, ' ',
+                                     home_player_9, ' ', home_player_10, ' ', home_player_11) AS lineup
+                       FROM Matches
+                       WHERE home_team_goal > away_team_goal), players_of_interest AS (SELECT player_api_id,
+                                    player_name,
+                                    YEAR(birthday)          as birth_year,
+                                    (2023 - YEAR(birthday)) as Age
+                             FROM Player
+                             WHERE YEAR(birthday) < (2023 - {INSERT AGE HERE})
+)
+SELECT DISTINCT m.date, p.player_name, p.Age,  team_long_name, t.team_api_id, AVG(m.home_score), (AVG(m.home_score) - AVG(away_score)) AS avg_goal_differential,
+       AVG(buildUpPlaySpeed), AVG(buildUpPlayPassing)
+FROM players_of_interest p, match_players m
+JOIN Team t ON m.home_team = t.team_api_id
+JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id AND YEAR(ta.date) = YEAR(m.date)
+WHERE m.lineup LIKE CONCAT('%', p.player_api_id, '%')
+GROUP BY t.team_api_id;
+```
+
+Finds the team statistics for all the teams in a given season where a player above a specified age has played.
+
+Credentials
+{
+    "rds_host": "football.crk9w1qr57il.us-east-1.rds.amazonaws.com",
+    "rds_port": "3306",
+    "rds_user": "admin",
+    "rds_password" : "footballerz",
+    "rds_db": "football",
+    "server_host": "localhost",
+    "server_port":"8080"
+  }
