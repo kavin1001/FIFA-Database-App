@@ -4,6 +4,7 @@ import PageNotFound from "./pages/PageNotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Signup from "./pages/Signup";
+import Home from "./pages/Home"
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/login" element={userData !== null ? <Navigate to="/" />  : <Login />}  /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
