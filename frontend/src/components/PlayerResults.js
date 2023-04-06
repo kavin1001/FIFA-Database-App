@@ -13,8 +13,8 @@ if(typeof searchString === 'object'){
   // The global difficulty state that is set in the DifficultyFilter component
   const {difficulty, courses} = useContext(AppContext);
 
-console.log(courses);
-console.log(typeof searchString);
+// console.log(courses);
+// console.log(typeof searchString);
 
   // Displayed courses is updated based on the search string such that the conditions are met
   const displayedCourses = courses.filter((c) => c.player_name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 || 
@@ -33,6 +33,7 @@ console.log(typeof searchString);
   // Display only the ones that show up in both
   let filteredCourses = displayedCourses.filter(value => filteredCoursesByDiff.includes(value));
 
+
   return (
     <div>
       <div className='mx-auto mb-12 h-full w-5/6 items-center justify-between'>
@@ -45,13 +46,13 @@ console.log(typeof searchString);
           </div> */}
         </div>
         <div className='grid gap-4 grid-cols-3'>
-          {filteredCourses.map((c) => (
+          {displayedCourses.map((c) => (
             <Course 
-              key={`${c.dept}-${c.number}`}
-              dept={c.dept}
-              number={c.number}
-              title={c.title}
-              description={c.description}
+              key={c.id}
+              dept={''}
+              number={c.player_api_id}
+              title={c.player_name}
+              description={''}
             />
           ))}
         </div>
