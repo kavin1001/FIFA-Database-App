@@ -6,45 +6,46 @@ import Nav from './Nav';
 import Popup from './PlayerCard';
 
 
-export const AppContext = React.createContext<null|any>(null);
+export const AppContext = React.createContext(null);
+
 
 export default function AppRoot() {
 
 
 // The courses state that will be updated with the API call
-  const [courses, setCourses] = React.useState<any[]>([]);
+  const [courses, setCourses] = useState([]);
 
   // Show all courses
   useEffect(() => {
-    axios.get('http://localhost:8080/api/courses')
+    axios.get('http://localhost:8080/api/sql/playerList')
     .then(res => {
       setCourses(res.data);
     })
-    .catch(err => console.log(err));
+    .catch(err => console.log("Route is not working"));
   }, []);
 
 
     // State variables to keep track of the app state globally
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [cart, setCart] = useState<any[]>([]);
-    const [openCart, setOpenCart] = useState<boolean>(false);
-    const [openPopup, setOpenPopup] = useState<boolean>(false);
-    const [course, setCourse] = useState<number>();
-    const [year, setYear] = useState<string>('2020');
-    const [semester, setSemester] = useState<string>('C');
-    const [difficulty, setDifficulty] = useState<number>(100);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [cart, setCart] = useState([]);
+    const [openCart, setOpenCart] = useState(false);
+    const [openPopup, setOpenPopup] = useState(false);
+    const [course, setCourse] = useState();
+    const [year, setYear] = useState('2020');
+    const [semester, setSemester] = useState('C');
+    const [difficulty, setDifficulty] = useState(100);
 
     const selectedCourse = courses.find(c => c.number === course)
 
     // Functions to update the states
 
     // Removes a course from the cart
-    function removeItemFromCart(id: number) {
+    function removeItemFromCart(id) {
         setCart(cart.filter(item => item.number !== id));
     }
 
     // Adds a course to the cart
-    function addItemToCart(id: number) {
+    function addItemToCart(id) {
         const newCourse = courses.find(c => c.number === id)
         if (!cart.includes(newCourse)) {
             setCart([...cart, newCourse])
@@ -52,27 +53,27 @@ export default function AppRoot() {
     }
 
     // Shows or hides the cart
-    function showCart(state: boolean) {
+    function showCart(state) {
         setOpenCart(state);
     }
 
     // Sets the course to the state
-    function chooseCourse(course: number) {
+    function chooseCourse(course) {
         setCourse(course);
     }
 
     // Shows or hides the popup
-    function showPopup(state: boolean) {
+    function showPopup(state) {
         setOpenPopup(state);
     }
 
     // Everytime the search query changes, this function will be called
-    function updateSearchQuery(query: string) {
+    function updateSearchQuery(query) {
         setSearchQuery(query);
     }
 
     // Since the API needs A,B, or C instead of the actual semester
-    function updateSemester(sem: string) {
+    function updateSemester(sem) {
         if(sem === "Spring") {
             setSemester("A");
         } else {
@@ -106,7 +107,7 @@ export default function AppRoot() {
     return (
         <AppContext.Provider value={appContextValue}>
             <Nav updateSearchQuery={updateSearchQuery} />
-            <Cart courses={cart} />
+            {/* <Cart courses={cart} /> */}
             <Courses searchString={searchQuery}/>
             {selectedCourse && <Popup course={selectedCourse}/>}
         </AppContext.Provider>

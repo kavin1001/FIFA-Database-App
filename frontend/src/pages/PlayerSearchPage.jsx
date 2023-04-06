@@ -1,9 +1,12 @@
 import React from 'react';
+import AppRoot from '../components/AppRoot';
 
 function PlayerSearchPage() {
-   <div>
-        <h1>Player Search Page</h1>
-    </div>
+    return (
+        <div>
+            <AppRoot />
+        </div>
+    );
 }
 
 export default PlayerSearchPage;

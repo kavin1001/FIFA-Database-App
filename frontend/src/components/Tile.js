@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { AppContext } from './AppRoot';
 
-export default function CourseTile({course}: {course: any}) {
+export default function CourseTile(course) {
 
     // Tile that we see in the cart
     const {removeItemFromCart} = useContext(AppContext);

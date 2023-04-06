@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "./AppRoot";
 
-export default function InfoTable({course}: {course:any}) {
+export default function InfoTable(course) {
 
   // Local state variables to store the data fetched from the API
   const [message, setMessage] = useState('Loading data...');

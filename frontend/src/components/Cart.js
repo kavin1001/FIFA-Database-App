@@ -6,7 +6,7 @@ import { AppContext } from './AppRoot';
 import CourseTile from './Tile';
 
 
-export default function Cart({courses}: {courses: any[]}) {
+export default function Cart(courses) {
   const {openCart, showCart, cart} = useContext(AppContext);
   const navigate = useNavigate()
 

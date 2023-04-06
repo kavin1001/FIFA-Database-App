@@ -3,16 +3,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import {AppContext} from './AppRoot'
 
 // Interface for a course
-export interface CourseType {
-    dept: string;
-    number: number;
-    title: string;
-    description: string;
-    prereqs?: string[];
-    "cross-listed"?: [];
-}
+// export interface CourseType {
+//     dept: string;
+//     number: number;
+//     title: string;
+//     description: string;
+//     prereqs?: string[];
+//     "cross-listed"?: [];
+// }
 
-export default function Course(props: CourseType) {
+export default function Course(props) {
 
     // Passing in the course information
     const {dept, number, title, description} = props;
@@ -21,9 +21,9 @@ export default function Course(props: CourseType) {
     const [inCart, setInCart] = useState(false);
 
     // Evertime the cart changes, updates which buttons to grey out
-    useEffect(() => {
-        setInCart(cart.find((c:any) => c.number === number))
-    }, [cart])
+    // useEffect(() => {
+    //     setInCart(cart.find((c) => c.number === number))
+    // }, [cart])
 
     // Function to open the popup and show the course information
     function showCourseInfo() {
@@ -43,7 +43,7 @@ export default function Course(props: CourseType) {
                 <div className='h-24 text-ellipsis overflow-hidden ...'>
                     <p className='text-md italic h-fit'>{description}</p>
                 </div>
-                <div className='w-full mb-5 flex self-end justify-center items-center mt-3'>
+                {/* <div className='w-full mb-5 flex self-end justify-center items-center mt-3'>
                     <button className={inCart ? 'inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded-full shadow-md cursor-not-allowed' : 'inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out'} 
                     onClick={()=>{
                         console.log('add to cart')
@@ -57,7 +57,7 @@ export default function Course(props: CourseType) {
                             }, 2000);
                         }}>
                         {inCart ? 'In Cart' :' Add to Cart'}</button>
-                </div>
+                </div> */}
             </div>
         </div>
     )
