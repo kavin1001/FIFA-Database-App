@@ -4,6 +4,7 @@ import PageNotFound from "./pages/PageNotFound";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Signup from "./pages/Signup";
+import PlayerSearchPage from "./pages/PlayerSearchPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         {/* <Route path="/" element={userData === null ? <Navigate to="/login" />  : <Home />} />
           <Route path="/login" element={userData !== null ? <Navigate to="/" />  : <Login />}  /> */}
         <Route path="/login" element={<Login />} />
+        <Route path="/player-search" element={<PlayerSearchPage />} />
         <Route path="/signup" element={<Signup />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />

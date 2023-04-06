@@ -12,6 +12,9 @@ const connection = mysql.createConnection({
   });
   connection.connect((err) => err && console.log(err));
 
+
+// Test query to make sure connection to the database works
+
 dbRouter.get("/countryList", async (req, res) => {
     connection.query(`
     SELECT *
@@ -25,6 +28,23 @@ dbRouter.get("/countryList", async (req, res) => {
       }
     }); 
 });
+
+
+// Query to get all the players from the database
+dbRouter.get("/playerList", async (req, res) => {
+    connection.query(`
+    SELECT *
+    FROM Player
+    `, (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    });
+});
+
 
   module.exports = {
     dbRouter
