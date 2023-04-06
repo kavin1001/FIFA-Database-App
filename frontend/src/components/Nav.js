@@ -2,7 +2,7 @@ import React from "react";
 import Search from "./SearchBar";
 
 
-export default function Nav({updateSearchQuery}:{updateSearchQuery: (newSearchString:string) => any}) {
+export default function Nav(updateSearchQuery) {
     return (
       <header className="sticky top-0 z-50 w-full">
         <div className="border-b-2 w-full bg-white justify-content-left">

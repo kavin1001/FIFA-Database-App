@@ -3,7 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { AppContext } from './AppRoot';
 import InfoTable from './PlayerInfoTable';
 
-export default function Popup({course}: {course:any}) {
+export default function Popup(course) {
 const {openPopup, showPopup, addItemToCart, showCart, cart} = useContext(AppContext);
 
   const cancelButtonRef = useRef(null)
@@ -23,7 +23,7 @@ const {openPopup, showPopup, addItemToCart, showCart, cart} = useContext(AppCont
 
   // The use effect to update the buttons when the cart changes from the popup
     useEffect(() => {
-        setInCart(cart.find((c:any) => c.number === course.number))
+        setInCart(cart.find((c) => c.number === course.number))
     }, [cart, course.number])
 
   // Transition elements for the popup are the as the cart component *do we need as="div" in line 32*

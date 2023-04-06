@@ -1,11 +1,11 @@
 import React from 'react'
 
 // The search bar component that is used in the nav bar
-export default function Search({updateSearchQuery}:{updateSearchQuery: (newSearchString:string) => any}) {
+export default function Search(updateSearchQuery) {
     // Function that updates the search query when the user types in the search bar
-    function handleChange(event: React.FormEvent<HTMLInputElement>) {
-        updateSearchQuery(event.currentTarget.value)
-    }
+    function handleChange(event) {
+        updateSearchQuery(event.currentTarget.value);
+      }
 
     return (
         <div className='py-6 px-2'>

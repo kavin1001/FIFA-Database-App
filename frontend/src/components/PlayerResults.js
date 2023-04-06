@@ -2,15 +2,22 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppRoot';
 import Course from './Player';
 
-export default function Courses({searchString}:{searchString: string}) {
+export default function Courses(searchString) {
+
+// Redifining the type of searchString from object to string
+if(typeof searchString === 'object'){
+  searchString = '';
+}
+  
 
   // The global difficulty state that is set in the DifficultyFilter component
   const {difficulty, courses} = useContext(AppContext);
 
-
+console.log(courses);
+console.log(typeof searchString);
 
   // Displayed courses is updated based on the search string such that the conditions are met
-  const displayedCourses = courses.filter((c) => c.title.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 || 
+  const displayedCourses = courses.filter((c) => c.player_name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 || 
     c.number.toString().indexOf(searchString) !== -1 ||
     c.description.indexOf(searchString) !== -1
   )
