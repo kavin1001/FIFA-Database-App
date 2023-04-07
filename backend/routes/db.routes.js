@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
     port: config.rds_port,
     database: config.rds_db
   });
-  connection.connect((err) => err && console.log(err));
+connection.connect((err) => err && console.log(err));
 
 
 // Test query to make sure connection to the database works
@@ -29,6 +29,7 @@ dbRouter.get("/countryList", async (req, res) => {
     }); 
 });
 
+<<<<<<< HEAD
 
 // Query to get all the players from the database
 dbRouter.get("/playerList", async (req, res) => {
@@ -46,6 +47,22 @@ dbRouter.get("/playerList", async (req, res) => {
 });
 
 
+=======
+dbRouter.get("/playerList", async (req, res) => {
+  connection.query(`
+  SELECT *
+  FROM Player
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
+});
+
+>>>>>>> 948015b42dc8848f6957b58376bdfac67b198826
   module.exports = {
     dbRouter
   }

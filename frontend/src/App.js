@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Signup from "./pages/Signup";
 import PlayerSearchPage from "./pages/PlayerSearchPage";
+import Home from "./pages/Home"
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/player-search" element={<PlayerSearchPage />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/" element={<Home />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
