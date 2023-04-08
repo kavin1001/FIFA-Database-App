@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 // The search bar component that is used in the nav bar
-export default function Search(updateSearchQuery) {
+export default function Search(props) {
     // Function that updates the search query when the user types in the search bar
+
     function handleChange(event) {
-        updateSearchQuery(event.currentTarget.value);
+        console.log(event.currentTarget.value)
+        props.updateSearchQuery(event.currentTarget.value)
       }
 
     return (

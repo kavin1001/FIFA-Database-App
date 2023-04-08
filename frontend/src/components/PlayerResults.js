@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { AppContext } from './AppRoot';
 import Course from './Player';
 
-export default function Courses(searchString) {
+export default function Courses(props) {
 
 // Redifining the type of searchString from object to string
 if(typeof searchString === 'object'){
-  searchString = '';
+  props.searchString = '';
 }
   
 
@@ -17,21 +17,18 @@ if(typeof searchString === 'object'){
 // console.log(typeof searchString);
 
   // Displayed courses is updated based on the search string such that the conditions are met
-  const displayedCourses = courses.filter((c) => c.player_name.toLowerCase().indexOf(searchString.toLowerCase()) !== -1 || 
-    c.number.toString().indexOf(searchString) !== -1 ||
-    c.description.indexOf(searchString) !== -1
-  )
+  const displayedCourses = courses.filter((c) => c.player_name.toLowerCase().indexOf(props.searchString.toLowerCase()) !== -1 )
 
   // Same logic as before but by course level or difficulty
-  const filteredCoursesByDiff = courses.filter((c) => {
-      if (c.number >= difficulty) {
-        return true;
-      }
-    return false
-  })
+  // const filteredCoursesByDiff = courses.filter((c) => {
+  //     if (c.number >= difficulty) {
+  //       return true;
+  //     }
+  //   return false
+  // })
 
   // Display only the ones that show up in both
-  let filteredCourses = displayedCourses.filter(value => filteredCoursesByDiff.includes(value));
+  // let filteredCourses = displayedCourses.filter(value => filteredCoursesByDiff.includes(value));
 
 
   return (
@@ -45,7 +42,7 @@ if(typeof searchString === 'object'){
             <DifficultyFilter />
           </div> */}
         </div>
-        <div className='grid gap-4 grid-cols-3'>
+        <div className='mt-6 grid gap-4 grid-cols-3'>
           {displayedCourses.map((c) => (
             <Course 
               key={c.id}

@@ -68,7 +68,7 @@ export default function AppRoot() {
     }
 
     // Everytime the search query changes, this function will be called
-    function updateSearchQuery(query) {
+    const updateSearchQuery = (query) => {
         setSearchQuery(query);
     }
 
@@ -89,6 +89,7 @@ export default function AppRoot() {
         showPopup,
         chooseCourse,
         updateSearchQuery,
+        searchQuery,
         removeItemFromCart,
         addItemToCart,
         openCart,
@@ -106,7 +107,7 @@ export default function AppRoot() {
     
     return (
         <AppContext.Provider value={appContextValue}>
-            <Nav updateSearchQuery={updateSearchQuery} />
+            <Nav updateSearchQuery={setSearchQuery} />
             {/* <Cart courses={cart} /> */}
             <Courses searchString={searchQuery}/>
             {selectedCourse && <Popup course={selectedCourse}/>}
