@@ -11,10 +11,8 @@ if(typeof searchString === 'object'){
   
 
   // The global difficulty state that is set in the DifficultyFilter component
-  const {difficulty, courses} = useContext(AppContext);
+  const {courses} = useContext(AppContext);
 
-// console.log(courses);
-// console.log(typeof searchString);
 
   // Displayed courses is updated based on the search string such that the conditions are met
   const displayedCourses = courses.filter((c) => c.player_name.toLowerCase().indexOf(props.searchString.toLowerCase()) !== -1 )

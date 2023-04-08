@@ -2,16 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 // import '../css/style.css'
 import {AppContext} from './AppRoot'
 
-// Interface for a course
-// export interface CourseType {
-//     dept: string;
-//     number: number;
-//     title: string;
-//     description: string;
-//     prereqs?: string[];
-//     "cross-listed"?: [];
-// }
-
 export default function Course(props) {
 
     // Passing in the course information
@@ -30,13 +20,15 @@ export default function Course(props) {
         setCourse(number) 
         showPopup(true)
         console.log('showing course info')
+        console.log(number)
+        console.log(showPopup)
     }
 
     return (
         <div className=''>
             <div className='shadow-sm hover:shadow-2xl rounded-xl border-2 p-5 w-full h-full'>
                 <div className='flex flex-col'>
-                    <span className='font-bold text-slate-400'>{dept + ' ' + number}</span>
+                    <span className='font-bold text-slate-400'>{number}</span>
                     <button className='w-fit h-8 text-xs md:text-lg font-bold text-green-600 text-ellipsis overflow-hidden mb-6 hover:underline hover:text-green-700' 
                     onClick={showCourseInfo}>{title}</button>
                 </div>
