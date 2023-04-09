@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Signup from "./pages/Signup";
 import PlayerSearchPage from "./pages/PlayerSearchPage";
 import Home from "./pages/Home"
+import PlayerPage from "./pages/PlayerPage";
 
 import { UserStore } from "./context/UserStore";
 
@@ -20,7 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/player-search" element={userData === null ? <Navigate to="/login" />  : <PlayerSearchPage />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Home />} />
+        <Route exact path="/player/:player_api_id" element = {<PlayerPage />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>

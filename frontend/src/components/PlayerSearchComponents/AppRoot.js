@@ -13,7 +13,7 @@ export default function AppRoot() {
   // Show all courses
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/sql/playerList")
+      .get("http://localhost:8080/api/player/playerList")
       .then((res) => {
         setCourses(res.data);
         console.log(res.data);
@@ -33,8 +33,8 @@ export default function AppRoot() {
 
   const selectedCourse = courses.find((c) => c.player_api_id === course);
 
-  console.log("Course is: ", course)
-  console.log("Selected course is: ", selectedCourse)
+  console.log("Course is: ", course);
+  console.log("Selected course is: ", selectedCourse);
   // Functions to update the states
 
   // Removes a course from the cart
