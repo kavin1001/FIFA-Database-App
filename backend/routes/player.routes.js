@@ -18,6 +18,7 @@ playerRouter.get("/playerList", async (req, res) => {
     `
   SELECT *
   FROM Player
+  LIMIT 100
   `,
     (err, data) => {
       if (err || data.length === 0) {
