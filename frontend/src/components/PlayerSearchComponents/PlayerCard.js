@@ -5,6 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { AppContext } from "./AppRoot";
 import InfoTable from "./PlayerInfoTable";
@@ -17,6 +18,8 @@ export default function Popup(props) {
 
   const [inCart, setInCart] = useState(false);
 
+  const navigate = useNavigate();
+
   // Function to add the course to the cart from the popup
   function addToCart() {
     showPopup(false);
@@ -28,12 +31,19 @@ export default function Popup(props) {
     }, 2500);
   }
 
+  function redirectPlayerPage() {
+    console.log(
+      "Redirect Link is: ",
+      `/player/${props.course.player_api_id}`
+    );
+    navigate(`/player/${props.course.player_api_id}`);
+  }
+
   // The use effect to update the buttons when the cart changes from the popup
   // useEffect(() => {
   //     setInCart(cart.find((c) => c.number === course.number))
   // }, [cart, course.number])
 
-  // Transition elements for the popup are the as the cart component *do we need as="div" in line 32*
   return (
     <Transition.Root show={openPopup} as={Fragment}>
       <Dialog
@@ -81,7 +91,7 @@ export default function Popup(props) {
                         ? "inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md cursor-not-allowed"
                         : "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     }
-                    onClick={addToCart}
+                    onClick={redirectPlayerPage()}
                     ref={cancelButtonRef}
                   >
                     More Info
