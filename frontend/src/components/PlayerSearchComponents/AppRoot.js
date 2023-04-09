@@ -29,7 +29,7 @@ export default function AppRoot() {
   const [course, setCourse] = useState();
   const [year, setYear] = useState("2020");
   const [semester, setSemester] = useState("C");
-  const [difficulty, setDifficulty] = useState(100);
+  const [season, setSeason] = useState("0");
 
   const selectedCourse = courses.find((c) => c.player_api_id === course);
 
@@ -97,8 +97,8 @@ export default function AppRoot() {
     semester,
     year,
     setYear,
-    setDifficulty,
-    difficulty,
+    setSeason,
+    season,
   };
 
   return (

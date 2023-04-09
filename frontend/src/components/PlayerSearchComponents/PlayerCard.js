@@ -17,6 +17,7 @@ export default function Popup(props) {
   const cancelButtonRef = useRef(null);
 
   const [inCart, setInCart] = useState(false);
+  const [redirect, setRedirect] = useState(false);
 
   const navigate = useNavigate();
 
@@ -34,10 +35,13 @@ export default function Popup(props) {
   function redirectPlayerPage() {
     console.log(
       "Redirect Link is: ",
-      `/player/${props.course.player_api_id}`
+      `/player/${props.course.player_name}/${props.course.player_api_id}`
     );
-    navigate(`/player/${props.course.player_api_id}`);
+    navigate(
+      `/player/${props.course.player_name}/${props.course.player_api_id}`
+    );
   }
+
 
   // The use effect to update the buttons when the cart changes from the popup
   // useEffect(() => {
@@ -91,7 +95,7 @@ export default function Popup(props) {
                         ? "inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md cursor-not-allowed"
                         : "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                     }
-                    onClick={redirectPlayerPage()}
+                    onClick={() => redirectPlayerPage()}
                     ref={cancelButtonRef}
                   >
                     More Info
