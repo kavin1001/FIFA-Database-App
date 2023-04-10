@@ -49,6 +49,6 @@ app.use('/api', (req, res, next) => {
 
 /* Run the server */
 // app.listen(8080);
-http.listen(3000);
-console.log('Server running on port 3000. Now open http://localhost:3000/ in your browser!');
+http.listen(8080);
+console.log('Server running on port 8080. Now open http://localhost:8080/ in your browser!');
 
