@@ -1,7 +1,7 @@
 import Banner from "../images/homepage_banner.png"
 
 const links = [
-    { name: 'Players', href: '#' },
+    { name: 'Players', href: '/player-search' },
     { name: 'Teams', href: '#' },
     { name: 'Matches', href: '#' },
     { name: 'User Profile', href: '#' },

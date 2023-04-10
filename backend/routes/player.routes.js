@@ -1,7 +1,7 @@
 const mysql = require("mysql");
 const config = require("../config.json");
 const { Router } = require("express");
-const dbRouter = Router();
+const playerRouter = Router();
 
 const connection = mysql.createConnection({
   host: config.rds_host,
@@ -12,13 +12,32 @@ const connection = mysql.createConnection({
 });
 connection.connect((err) => err && console.log(err));
 
-// Test query to make sure connection to the database works
+// Get all the players to display on the search page
+playerRouter.get("/playerList", async (req, res) => {
+  connection.query(
+    `
+  SELECT *
+  FROM Player
+  LIMIT 100
+  `,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+});
 
-dbRouter.get("/countryList", async (req, res) => {
+// Get all the attributes for a specific player
+playerRouter.get("/playerAttributes/:id", async (req, res) => {
   connection.query(
     `
     SELECT *
-    FROM Country
+    FROM Player_Attributes
+    WHERE player_api_id = ${req.params.id}
     `,
     (err, data) => {
       if (err || data.length === 0) {
@@ -32,5 +51,5 @@ dbRouter.get("/countryList", async (req, res) => {
 });
 
 module.exports = {
-  dbRouter,
+  playerRouter,
 };
