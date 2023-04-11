@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import PlayerSearchPage from "./pages/PlayerSearchPage";
 import Home from "./pages/Home"
 import PlayerPage from "./pages/PlayerPage";
+import MatchesPage from "./pages/MatchesPage";
 
 import { UserStore } from "./context/UserStore";
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/player-search" element={userData === null ? <Navigate to="/login" />  : <PlayerSearchPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route exact path="/player/:player_name/:player_api_id" element = {<PlayerPage />} />
+        <Route path="/matches" element = {<MatchesPage />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
