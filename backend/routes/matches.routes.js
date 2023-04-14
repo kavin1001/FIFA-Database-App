@@ -27,13 +27,26 @@ matchRouter.get("/matchList", async (req, res) => {
     }); 
 });
 
-// Need to edit below, just mapping out routes first
-matchRouter.get("/leagueMatches", async (req, res) => {
+matchRouter.get("/leagueList", async (req, res) => {
+  connection.query(`
+  select id, name
+  from League;
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
+});
+
+matchRouter.get("/matchList/:league", async (req, res) => {
   connection.query(`
     select id, country_id, league_id, season, stage, date, home_team_api_id, away_team_api_id,
     home_team_goal, away_team_goal
     from Matches
-    where league_id = 1;
+    where league_id = ${req.params.league};
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);

@@ -6,7 +6,7 @@ function MatchesTable(props) {
     const [loading, setLoading] = useState(true);
 
     const columns = props.columns;
-    
+        
     function wait() {
         setTimeout(() => {
             setLoading(false);
@@ -24,7 +24,8 @@ function MatchesTable(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, [])
+    }, [props])
+
 
     return (
     <>
@@ -44,7 +45,7 @@ function MatchesTable(props) {
                 <tbody>
                     {
                         data.map((row, index) => 
-                            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700" key={index}>
                                 {
                                     columns.map((column, idx) => 
                                     <td className="px-6 py-4" key={column.headerName}>
