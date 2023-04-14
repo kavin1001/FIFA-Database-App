@@ -5,19 +5,14 @@ const config = require('../../config.json')
 
 function LeagueDropdown(props) {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [drop, setDrop] = useState(false);
     const [dropText, setDropText] = useState('Leagues');
-    
+   
+    const setLoaded = props.setLoaded;
     const setLeague = props.setLeague;
 
     const route = `http://${config.server_host}:${config.server_port}/api/matches/leagueList`
-
-    function wait() {
-        setTimeout(() => {
-            setLoading(false);
-          }, 500);
-    }
 
     function activate() {
         setDrop(!drop)
@@ -37,7 +32,7 @@ function LeagueDropdown(props) {
             .then((res) => {
                 console.log(res.data);
                 setData(res.data);
-                wait();
+                setLoaded(1);
             })
             .catch((err) => {
                 console.log(err);
@@ -46,12 +41,12 @@ function LeagueDropdown(props) {
 
     return (
     <>
-        {
+        {/* {
         loading ? 
         <div>
             <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
         </div> 
-        :
+        : */}
         <div>
             <div className="relative inline-block text-left">
                 <div>
@@ -114,7 +109,7 @@ function LeagueDropdown(props) {
             </div>
             </div>
         </div>       
-        }
+        {/* } */}
     </>
     )
 }

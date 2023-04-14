@@ -44,23 +44,40 @@ const matchesColumns = [
 
 function MatchesPage() {
     const [league, setLeague] = useState(-1);
+    const [loadedDropdown, setLoadedDropdown]  = useState(0)
+    const [loadedTable, setLoadedTable]  = useState(0)
 
     const tableRoute = 
         league == -1 
         ? `http://${config.server_host}:${config.server_port}/api/matches/matchlist`
         : `http://${config.server_host}:${config.server_port}/api/matches/matchList/${league}`
-
-    console.log(tableRoute)
     
     return (
-        <div className = 'flex items-center flex-col'>
-            <LeagueDropdown setLeague = {setLeague}/>
-            <MatchesTable 
-                route = {tableRoute}
-                columns = {matchesColumns}
-                league = {league}
-            />
-        </div>
+        <>
+            {!loadedDropdown && !loadedTable ?
+            <div>
+                <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
+            </div>
+            :
+            <></>
+            }
+            <div 
+            className = 
+            {`flex items-center flex-col
+            visibility: ${!loadedDropdown && !loadedTable ? 'hidden' : 'visible'}
+            `}>
+                <LeagueDropdown 
+                    setLeague = {setLeague}
+                    setLoaded = {setLoadedDropdown}
+                />
+                <MatchesTable 
+                    route = {tableRoute}
+                    columns = {matchesColumns}
+                    league = {league}
+                    setLoaded = {setLoadedTable}
+                />
+            </div>
+        </>
     )
 }
 

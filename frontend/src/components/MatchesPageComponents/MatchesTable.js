@@ -3,15 +3,10 @@ import React, {useEffect, useState, useContext} from "react";
 
 function MatchesTable(props) {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
 
+    const setLoaded = props.setLoaded;
     const columns = props.columns;
-        
-    function wait() {
-        setTimeout(() => {
-            setLoading(false);
-          }, 500);
-    }
 
     useEffect(() => {
         axios
@@ -19,7 +14,7 @@ function MatchesTable(props) {
             .then((res) => {
                 console.log(res.data);
                 setData(res.data);
-                wait();
+                setLoaded(1);
             })
             .catch((err) => {
                 console.log(err);
@@ -29,12 +24,12 @@ function MatchesTable(props) {
 
     return (
     <>
-        {
+        {/* {
         loading ? 
         <div>
             <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
         </div> 
-        :
+        : */}
         <div className="relative overflow-auto shadow-md sm:rounded-lg" style={{height: '60vh'}}>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -59,7 +54,7 @@ function MatchesTable(props) {
                 </tbody>
             </table>
         </div>
-        }
+        {/* } */}
     </>
     )
 }
