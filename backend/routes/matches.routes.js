@@ -57,12 +57,12 @@ matchRouter.get("/matchList/:league", async (req, res) => {
   }); 
 });
 
-matchRouter.get("/seasonMatches", async (req, res) => {
+matchRouter.get("/seasonMatches/:season", async (req, res) => {
   connection.query(`
     select id, country_id, league_id, season, stage, date, home_team_api_id, away_team_api_id,
     home_team_goal, away_team_goal
     from Matches
-    where season = '2009/2010';
+    where season = '${req.params.season}';
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -73,12 +73,12 @@ matchRouter.get("/seasonMatches", async (req, res) => {
   }); 
 });
 
-matchRouter.get("/dateMatches", async (req, res) => {
+matchRouter.get("/dateMatches/:startDate/:endDate", async (req, res) => {
   connection.query(`
     select id, country_id, league_id, season, stage, CAST(date AS DATE) date_date, home_team_api_id, away_team_api_id,
     home_team_goal, away_team_goal
     from Matches
-    where CAST(date as DATE) < '2009-03-10' AND CAST(date as DATE) > '2009-03-01';
+    where CAST(date as DATE) < '${req.params.endDate}' AND CAST(date as DATE) > '${req.params.startDate}';
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
