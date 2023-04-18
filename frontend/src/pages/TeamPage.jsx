@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
 import StatsDashboard from "../components/TeamPageComponents/TeamStatsTable";
+import Attackers from "../components/TeamPageComponents/TeamAttackers";
 
 function TeamPage() {
     
@@ -39,7 +40,7 @@ function TeamPage() {
           }, 500);
     }
 
-    // The route to get the player attributes
+    // The route to get the team attributes
     useEffect(() => {
         axios
             .get(`http://localhost:8080/api/team/teamAttributes/${team_api_id}`)
@@ -54,8 +55,6 @@ function TeamPage() {
                 console.log(err);
             });
     }, []);
-
-    console.log("levels are:", levels)  
 
     return (
         loading ? 
@@ -72,6 +71,14 @@ function TeamPage() {
                 setSeason={setSeason} 
                 setLoading={setLoading}
             />
+            <Attackers 
+                levels={levels}
+                playerAttributes={teamAttributes} 
+                seasons ={seasons} 
+                currSeason = {season} 
+                setSeason={setSeason} 
+                setLoading={setLoading}
+                teamid = {team_api_id} />
         </div>
     );
 }
