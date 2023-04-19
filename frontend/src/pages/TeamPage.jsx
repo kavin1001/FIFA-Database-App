@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, {useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
+import Nav from '../components/Nav';
 import StatsDashboard from "../components/TeamPageComponents/TeamStatsTable";
 import Attackers from "../components/TeamPageComponents/TeamAttackers";
 
@@ -62,6 +63,7 @@ function TeamPage() {
             <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
         </div> :
         <div>
+            <Nav />
             <h1 className="font-bold text-5xl my-10 text-center"> {team_name}</h1>
             <StatsDashboard 
                 levels={levels}

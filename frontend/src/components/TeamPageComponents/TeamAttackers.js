@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useContext} from "react";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 
 function Attackers(props) {
 
@@ -34,7 +35,7 @@ function Attackers(props) {
                 <tbody class="bg-white divide-y divide-gray-200">
                     {attackers.map((attacker) => (
                         <tr>
-                            <td class="px-6 py-5 whitespace-nowrap">{attacker.Player}</td>
+                            <td class="px-6 py-5 whitespace-nowrap underline"><Link to={`/player/${attacker.Player}/${attacker.Player_API}`}>{attacker.Player}</Link></td>
                             <td class="px-6 py-5 whitespace-nowrap">{attacker.Player_API}</td>
                             <td class="px-6 py-5 whitespace-nowrap">{attacker.Position}</td>
                             <td class="px-6 py-5 whitespace-nowrap">{attacker.Avg_Overall_Rating}</td>  
