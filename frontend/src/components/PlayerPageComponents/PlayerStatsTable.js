@@ -7,8 +7,8 @@ function StatisticsDashboard(props) {
   return (
     <div className="px-6">
       <div className="bg-gray-100 p-12 rounded-full shadow-lg">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold ml-6">Player Statistics</h1>
+        <div className="flex items-center justify-center">
+          <h1 className="text-3xl font-bold ml-6 mx-2">Player Statistics</h1>
           <div className="justify-start mr-2">
             <p className="ml-2 font-bold">Season</p>
             <SeasonSelector 

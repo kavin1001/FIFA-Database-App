@@ -29,7 +29,7 @@ export default function Search(props) {
           className="w-36 md:w-96 p-2 rounded-full border-black border-2"
           type="text"
           id="search-bar"
-          placeholder="Search for a course title, number, or description"
+          placeholder="Search for a player..."
           onChange={handleInput}
         />
       </div>
