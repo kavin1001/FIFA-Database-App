@@ -23,7 +23,7 @@ export default function Course(props) {
         <div className="flex flex-col items-center" onClick={showCourseInfo}>
           <span className="font-bold text-slate-400">{number}</span>
           <div
-            className="w-fit h-8 text-xs md:text-lg font-bold text-green-600 text-ellipsis overflow-hidden hover:underline hover:text-green-700"
+            className="w-fit h-8 text-xs md:text-lg font-bold text-green-600 text-ellipsis overflow-hidden hover:text-green-700"
           >
             {title}
           </div>

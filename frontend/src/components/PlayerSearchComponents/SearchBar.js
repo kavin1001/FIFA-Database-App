@@ -3,7 +3,6 @@ import React, { useState } from "react";
 // The search bar component that is used in the nav bar
 export default function Search(props) {
   const [searchString, setSearchString] = useState("");
-  const [searchTrue, setSearchTrue] = useState(false);
   // Function that updates the search query when the user types in the search bar
 
   function handleInput(event) {
@@ -13,12 +12,12 @@ export default function Search(props) {
 
   function handleSearch(event) {
     console.log("Search value is: ", event.currentTarget.value);
-    if (searchTrue) {
+    if (props.searchState) {
       props.updateSearchQuery("");
-      setSearchTrue(false);
+      props.setSearchState(false);
     } else {
       props.updateSearchQuery(searchString);
-      setSearchTrue(true);
+      props.setSearchState(true);
     }
   }
 
@@ -29,11 +28,11 @@ export default function Search(props) {
           className="w-36 md:w-96 p-2 rounded-full border-black border-2"
           type="text"
           id="search-bar"
-          placeholder="Search for a course title, number, or description"
+          placeholder="Search for a player..."
           onChange={handleInput}
         />
       </div>
-      {searchTrue ? (
+      {props.searchState ? (
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
           onClick={handleSearch}

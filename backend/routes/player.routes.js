@@ -18,7 +18,6 @@ playerRouter.get("/playerList", async (req, res) => {
     `
   SELECT *
   FROM Player
-  LIMIT 100
   `,
     (err, data) => {
       if (err || data.length === 0) {
@@ -49,6 +48,25 @@ playerRouter.get("/playerAttributes/:id", async (req, res) => {
     }
   );
 });
+
+playerRouter.get("/playerLazyScroll/:page", async (req, res) => {
+  connection.query(
+    `
+  SELECT *
+  FROM Player
+  LIMIT 100 OFFSET ${req.params.page * 100}
+  `,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+}
+);
 
 module.exports = {
   playerRouter,

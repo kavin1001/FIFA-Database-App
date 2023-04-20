@@ -8,7 +8,8 @@ export default function Nav(props) {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold py-6 px-4">Player Search</h1>
           <div className="flex items-center px-2">
-            <Search updateSearchQuery={props.updateSearchQuery} />
+            <Search updateSearchQuery={props.updateSearchQuery} searchState={props.searchState}
+        setSearchState={props.setSearchState}/>
           </div>
         </div>
       </div>
