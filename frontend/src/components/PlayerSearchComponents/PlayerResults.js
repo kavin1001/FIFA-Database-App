@@ -31,13 +31,11 @@ export default function Courses(props) {
   }, []);
 
   useEffect(() => {
-    console.log(page);
-    console.log(`http://localhost:8080/api/player/playerLazyScroll/${page}`);
     axios
       .get(`http://localhost:8080/api/player/playerLazyScroll/${page}`)
       .then((res) => {
         const data = res.data;
-        console.log("data is ", data);
+        console.log("data");
         setListItems(listItems.concat(data));
       })
       .catch((err) => console.log("Route is not working", err));
