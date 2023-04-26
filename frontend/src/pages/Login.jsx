@@ -1,14 +1,23 @@
 // eslint-disable-next-line
-import { useState } from "react";
+import { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStore } from "../context/UserStore";
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from "axios";
+
+
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [ user, setUser ] = useState([]);
   const navigate = useNavigate();
 
-  const {userData, login} = UserStore();
+  const errorMessage = (error) => {
+      console.log(error);
+  };
+
+  const {userData, login, setUserData, setThirdParty} = UserStore();
 
   const submitLogin = async () => {
     if (username === "") {
@@ -24,6 +33,33 @@ function Login() {
       navigate("/");
     }
   }
+
+  const signInWithGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => setUser(codeResponse),
+    onError: (error) => console.log('Login Failed:', error)
+});
+
+  useEffect(
+    () => {
+        if (user) {
+            axios
+                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                    headers: {
+                        Authorization: `Bearer ${user.access_token}`,
+                        Accept: 'application/json'
+                    }
+                })
+                .then((res) => {
+                    setThirdParty(true)
+                    setUserData(res.data);
+                    console.log("User from gmail signon", res.data);
+                })
+                .catch((err) => console.log(err));
+        }
+    },
+    [ user ]
+);
+
 
   return (
     <div class="w-full max-w-xs items-center mx-auto mt-12">
@@ -50,7 +86,9 @@ function Login() {
           </a>
         </div>
       </form>
-
+      <div className="flex justify-center">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signInWithGoogle()}>Sign in with Google 🚀 </button>    
+      </div>
     </div>
   );
 }

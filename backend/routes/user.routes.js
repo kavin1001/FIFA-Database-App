@@ -38,6 +38,9 @@ usersRouter.get("/login", async (req, res) => {
     }
 });
 
+usersRouter.get("googleLogin", async (req, res) => {});
+
+
 usersRouter.get("/logout", async(req, res) => {
     // logout code
     // delete session
