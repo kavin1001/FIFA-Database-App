@@ -62,51 +62,57 @@ function LeagueDropdown(props) {
                     </svg>
                     </button>
                 </div>
-            {/* <!--
-                Dropdown menu, show/hide based on menu state.
+                {/* <!--
+                    Dropdown menu, show/hide based on menu state.
 
-                Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-                Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            --> */}
-            <div className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white 
-            shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
-            transition ease-${drop ? 'out' : 'in'} duration-${drop ? '100' : '75'} 
-            transform opacity-${drop ? '100' : '0'} scale-${drop ? '100' : '95'}`} 
-            role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
-                <div className="py-1" role="none">
-                    {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
-                    <a href='#' className="text-gray-700 block px-4 py-2 text-sm" 
-                    role="menuitem" tabIndex="-1" id={`menu-item--1}`}
-                    onClick = {() => {
-                        changeLeague(-1)
-                        setDropText("All")
-                        activate()
-                    }}
-                    key = {-1}
-                    >
-                        All 
-                    </a>
-                    {
-                    data.map((row, index) => 
-                    <a href='#' className="text-gray-700 block px-4 py-2 text-sm" 
-                    role="menuitem" tabIndex="-1" id={`menu-item-${index}`}
-                    onClick = {() => {
-                        changeLeague(`${index}`)
-                        setDropText(`${row.name}`)
-                        activate()
-                    }}
-                    key = {index}
-                    >
-                        {row.name}
-                    </a>
-                    )
-                    }
-                </div>
-            </div>
+                    Entering: "transition ease-out duration-100"
+                    From: "transform opacity-0 scale-95"
+                    To: "transform opacity-100 scale-100"
+                    Leaving: "transition ease-in duration-75"
+                    From: "transform opacity-100 scale-100"
+                    To: "transform opacity-0 scale-95"
+                --> */}
+                {drop ? 
+                    <div className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white 
+                    shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none
+                    transition ease-${drop ? 'out' : 'in'} duration-${drop ? '100' : '75'} 
+                    transform opacity-${drop ? '100' : '0'} scale-${drop ? '100' : '95'}`} 
+                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                        <div className="py-1" role="none">
+                            {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
+                            <a href='#' className="text-gray-700 block px-4 py-2 text-sm" 
+                            role="menuitem" tabIndex="-1" id={`menu-item--1}`}
+                            style={{pointerEvents: drop ? 'auto' : 'none'}}
+                            onClick = {() => {
+                                changeLeague(-1)
+                                setDropText("All")
+                                activate()
+                            }}
+                            key = {-1}
+                            >
+                                All 
+                            </a>
+                            {
+                            data.map((row, index) => 
+                            <a href='#' className="text-gray-700 block px-4 py-2 text-sm" 
+                            role="menuitem" tabIndex="-1" id={`menu-item-${index}`}
+                            style={{pointerEvents: drop ? 'auto' : 'none'}}
+                            onClick = {() => {
+                                changeLeague(`${index}`)
+                                setDropText(`${row.name}`)
+                                activate()
+                            }}
+                            key = {index}
+                            >
+                                {row.name}
+                            </a>
+                            )
+                            }
+                        </div>
+                    </div>
+                : 
+                    <></>
+                }
             </div>
         </div>       
         {/* } */}
