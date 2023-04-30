@@ -68,6 +68,27 @@ playerRouter.get("/playerLazyScroll/:page", async (req, res) => {
 }
 );
 
+// COMPLEX QUERY
+playerRouter.get("/playerLazyScroll/:teams/:page", async (req, res) => {
+  connection.query(
+  `
+  SELECT p.player_api_id, p.player_name
+  FROM Player p
+  INNER JOIN player_team_count ptc ON ptc.player_api_id = p.player_api_id WHERE ptc.team_count >= ${req.params.teams}
+  LIMIT 100 OFFSET ${req.params.page * 100}
+  `,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+}
+);
+
 module.exports = {
   playerRouter,
 };

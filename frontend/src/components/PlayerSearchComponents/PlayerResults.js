@@ -4,9 +4,14 @@ import Course from "./Player";
 import axios from "axios";
 
 export default function Courses(props) {
-  const [listItems, setListItems] = useState([]);
+  const [listItemsStandard, setListItemsStandard] = useState([]);
+  const [listItemsTeams, setListItemsTeams] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
-  const [page, setPage] = useState(0);
+  const [pageStandard, setPageStandard] = useState(0);
+  const [pageTeams, setPageTeams] = useState(0);
+  const [mode, setMode] = useState(0);
+
+  const teams = props.teams;
 
   const { searchTrue } = useContext(AppContext);
 
@@ -31,17 +36,53 @@ export default function Courses(props) {
   }, []);
 
   useEffect(() => {
-    console.log(page);
-    console.log(`http://localhost:8080/api/player/playerLazyScroll/${page}`);
-    axios
-      .get(`http://localhost:8080/api/player/playerLazyScroll/${page}`)
+    if(teams == 1) {
+      setMode(0);
+      setPageStandard(0);
+      axios
+      .get(`http://localhost:8080/api/player/playerLazyScroll/${pageStandard}`)
+      .then((res) => {
+        const data = res.data;
+        setListItemsStandard(data);
+      })
+      .catch((err) => console.log("Route is not working", err));
+    } else {
+      setMode(1);
+      setPageTeams(0);
+      axios
+      .get(`http://localhost:8080/api/player/playerLazyScroll/${teams}/${pageTeams}`)
       .then((res) => {
         const data = res.data;
         console.log("data is ", data);
-        setListItems(listItems.concat(data));
+        setListItemsTeams(data);
+      })
+    }
+  }, [teams])
+
+  useEffect(() => {
+    if(teams == 1) {
+      setMode(0);
+      axios
+      .get(`http://localhost:8080/api/player/playerLazyScroll/${pageStandard}`)
+      .then((res) => {
+        const data = res.data;
+        console.log("data is ", data);
+        setListItemsStandard(listItemsStandard.concat(data));
       })
       .catch((err) => console.log("Route is not working", err));
-  }, [page]);
+    }
+    else {
+      setMode(1);
+      axios
+      .get(`http://localhost:8080/api/player/playerLazyScroll/${teams}/${pageTeams}`)
+      .then((res) => {
+        const data = res.data;
+        console.log("data is ", data);
+        setListItemsTeams(listItemsTeams.concat(data));
+      })
+      .catch((err) => console.log("Route is not working", err));
+    }
+  }, [pageStandard, pageTeams]);
 
   useEffect(() => {
     if (!isFetching) return;
@@ -60,7 +101,10 @@ export default function Courses(props) {
   };
 
   const fetchData = () => {
-    setPage(page + 1);
+    mode == 0 ?
+      setPageStandard(pageStandard + 1)
+    :
+      setPageTeams(pageTeams + 1)
   };
 
   const fetchMoreListItems = () => {
@@ -81,15 +125,28 @@ export default function Courses(props) {
           </div> */}
           </div>
           <div className="mt-6 grid gap-4 grid-cols-3">
-            {listItems.map((c) => (
-              <Course
-                key={c.id}
-                dept={""}
-                number={c.player_api_id}
-                title={c.player_name}
-                description={""}
-              />
-            ))}
+            {
+            mode == 0 ?
+              listItemsStandard.map((c) => (
+                <Course
+                  key={c.id}
+                  dept={""}
+                  number={c.player_api_id}
+                  title={c.player_name}
+                  description={""}
+                />
+              ))
+              :
+              listItemsTeams.map((c) => (
+                <Course
+                  key={c.id}
+                  dept={""}
+                  number={c.player_api_id}
+                  title={c.player_name}
+                  description={""}
+                />
+              ))
+            }
             {isFetching && <h1>Fetching more list items...</h1>}
           </div>
         </div>

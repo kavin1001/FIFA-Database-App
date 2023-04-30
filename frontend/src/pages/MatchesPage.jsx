@@ -58,6 +58,7 @@ function MatchesPage() {
 
     return (
         <>
+            <Nav />
             {!loadedDropdown || !loadedTable ?
             <div>
                 <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>

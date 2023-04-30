@@ -8,6 +8,7 @@ export default function Search(props) {
   function handleInput(event) {
     console.log(event.currentTarget.value);
     setSearchString(event.currentTarget.value);
+    props.setTeams(1)
   }
 
   function handleSearch(event) {

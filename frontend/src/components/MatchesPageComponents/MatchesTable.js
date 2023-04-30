@@ -63,9 +63,12 @@ function MatchesTable(props) {
             <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
         </div> 
         : */}
-        <div className="relative overflow-auto shadow-md sm:rounded-lg" style={{height: '60vh'}}>
+        <div className="relative overflow-auto shadow-lg sm:rounded-lg" style={{height: '60vh'}}>
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <thead 
+                    className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+                    style={{position: 'sticky', top: 0}}
+                >
                     <tr>
                         {columns.map(col => <th scope="col" className="px-6 py-3" key={col.headerName}>{col.headerName}</th>)}
                     </tr>
@@ -76,7 +79,7 @@ function MatchesTable(props) {
                             <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700" key={index}>
                                 {
                                     columns.map((column, idx) => 
-                                    <td className="px-6 py-4" key={column.headerName}>
+                                    <td className="text-gray-800 bg-white px-6 py-4" key={column.headerName}>
                                         {row[column.field]}
                                     </td>
                                     )

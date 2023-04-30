@@ -31,6 +31,7 @@ export default function AppRoot() {
   const [semester, setSemester] = useState("C");
   const [season, setSeason] = useState("0");
   const [searchTrue, setSearchTrue] = useState(false);
+  const [teams, setTeams] = useState(1);
 
   const selectedCourse = courses.find((c) => c.player_api_id === course);
 
@@ -110,9 +111,11 @@ export default function AppRoot() {
         updateSearchQuery={setSearchQuery}
         searchState={searchTrue}
         setSearchState={setSearchTrue}
+        setTeams={setTeams}
+        teams={teams}
       />
       {/* <Cart courses={cart} /> */}
-      <Courses searchString={searchQuery} />
+      <Courses searchString={searchQuery} teams={teams}/>
       {selectedCourse && <Popup course={selectedCourse} />}
     </AppContext.Provider>
   );
