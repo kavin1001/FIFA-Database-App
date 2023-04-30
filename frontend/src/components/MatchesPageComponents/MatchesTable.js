@@ -31,22 +31,29 @@ function MatchesTable(props) {
             axios.get(props.dateRoute)
         ])
         .then(axios.spread((res1, res2) => {
+            setLoaded(1);
             setLeagueMatchData(res1.data);
             setDateMatchData(res2.data);
-            setLoaded(1);
         }))
-        .then(() => {
-            setAggregateData(
-            leagueMatchData.filter(obj1 => {
-            const obj2 = dateMatchData.find(obj2 => obj1.id === obj2.id);
-            return obj2 !== undefined;
-            }));
-         })
+        // .then(() => {
+        //     setAggregateData(
+        //     leagueMatchData.filter(obj1 => {
+        //     const obj2 = dateMatchData.find(obj2 => obj1.id === obj2.id);
+        //     return obj2 !== undefined;
+        //     }));
+        //  })
         .catch((err) => {
             console.log(err);
         });
     }, [props])
 
+    useEffect(() => {
+        setAggregateData(
+            leagueMatchData.filter(obj1 => {
+            const obj2 = dateMatchData.find(obj2 => obj1.id === obj2.id);
+            return obj2 !== undefined;
+        }));
+    }, [leagueMatchData, dateMatchData])
     
     return (
     <>

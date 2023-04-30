@@ -84,7 +84,7 @@ function MatchesPage() {
                         maxDate={new Date()}
                     /> 
                 </div>
-                <MatchesTable 
+                <MatchesTable
                 // NEED TO CHANGE PROCESSING HERE
                     leagueRoute = {leagueRoute}
                     dateRoute = {dateRoute}
