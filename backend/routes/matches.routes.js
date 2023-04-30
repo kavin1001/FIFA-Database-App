@@ -4,12 +4,13 @@ const { Router } = require("express");
 const matchRouter = Router();
 
 const connection = mysql.createConnection({
-    host: config.rds_host,
-    user: config.rds_user,
-    password: config.rds_password,
-    port: config.rds_port,
-    database: config.rds_db
-  });
+  host: process.env.REACT_APP_RDS_HOST,
+  user: process.env.REACT_APP_RDS_USER,
+  password: process.env.REACT_APP_RDS_PASSWORD,
+  port: process.env.REACT_APP_RDS_PORT,
+  database: process.env.REACT_APP_RDS_DB,
+ });
+ 
 connection.connect((err) => err && console.log(err));
 
 matchRouter.get("/matchList", async (req, res) => {
