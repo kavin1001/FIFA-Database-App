@@ -1,5 +1,4 @@
 const mysql = require('mysql')
-const config = require('../config.json')
 const { Router } = require("express");
 const matchRouter = Router();
 
@@ -14,27 +13,78 @@ const connection = mysql.createConnection({
 connection.connect((err) => err && console.log(err));
 
 matchRouter.get("/matchList", async (req, res) => {
-    connection.query(`
-    select id, country_id, league_id, season, stage, date, 
-    home_team_api_id, away_team_api_id, home_team_goal, away_team_goal
-    from Matches;
-    `, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    }); 
+  connection.query(`
+  select M.id, country_id, league_id, season, stage, CAST(date AS DATE) date_date,
+  home_team_api_id, away_team_api_id, home_team_goal, away_team_goal, T1.team_long_name as home_team_name, T2.team_long_name as away_team_name
+  from Matches M
+  join Team T1 on M.home_team_api_id = T1.team_api_id
+  join Team T2 on M.away_team_api_id = T2.team_api_id;
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
 });
 
-// Need to edit below, just mapping out routes first
-matchRouter.get("/leagueMatches", async (req, res) => {
+matchRouter.get("/leagueList", async (req, res) => {
+  connection.query(`
+  select id, name
+  from League;
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
+});
+
+matchRouter.get("/matchList/:league", async (req, res) => {
+  connection.query(`
+    select M.id, country_id, league_id, season, stage, CAST(date AS DATE) date_date,
+    home_team_api_id, away_team_api_id, home_team_goal, away_team_goal, T1.team_long_name as home_team_name, T2.team_long_name as away_team_name
+    from Matches M          
+    join Team T1 on M.home_team_api_id = T1.team_api_id
+    join Team T2 on M.away_team_api_id = T2.team_api_id
+    where league_id = ${req.params.league};
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
+});
+
+matchRouter.get("/seasonMatches/:season", async (req, res) => {
+  connection.query(`
+    select M.id, country_id, league_id, season, stage, CAST(date AS DATE) date_date,
+    home_team_api_id, away_team_api_id, home_team_goal, away_team_goal, T1.team_long_name as home_team_name, T2.team_long_name as away_team_name
+    from Matches M
+    join Team T1 on M.home_team_api_id = T1.team_api_id
+    join Team T2 on M.away_team_api_id = T2.team_api_id
+    where season = '${req.params.season}';
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  }); 
+});
+
+matchRouter.get("/dateMatches/:startDate/:endDate", async (req, res) => {
   connection.query(`
     select id, country_id, league_id, season, stage, date, home_team_api_id, away_team_api_id,
     home_team_goal, away_team_goal
     from Matches
-    where league_id = 1;
+    where date <= '${req.params.endDate}' AND date >= '${req.params.startDate}';
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -45,37 +95,6 @@ matchRouter.get("/leagueMatches", async (req, res) => {
   }); 
 });
 
-matchRouter.get("/seasonMatches", async (req, res) => {
-  connection.query(`
-    select id, country_id, league_id, season, stage, date, home_team_api_id, away_team_api_id,
-    home_team_goal, away_team_goal
-    from Matches
-    where season = '2009/2010';
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  }); 
-});
-
-matchRouter.get("/dateMatches", async (req, res) => {
-  connection.query(`
-    select id, country_id, league_id, season, stage, CAST(date AS DATE) date_date, home_team_api_id, away_team_api_id,
-    home_team_goal, away_team_goal
-    from Matches
-    where CAST(date as DATE) < '2009-03-10' AND CAST(date as DATE) > '2009-03-01';
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  }); 
-});
 
 module.exports = {
     matchRouter

@@ -1,5 +1,4 @@
 const mysql = require("mysql");
-const config = require("../config.json");
 const { Router } = require("express");
 const teamRouter = Router();
 

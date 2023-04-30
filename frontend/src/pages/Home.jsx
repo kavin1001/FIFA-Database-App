@@ -3,7 +3,7 @@ import Banner from "../images/homepage_banner.png"
 const links = [
     { name: 'Players', href: '/player-search' },
     { name: 'Teams', href: 'team-search' },
-    { name: 'Matches', href: '#' },
+    { name: 'Matches', href: 'matches' },
     { name: 'User Profile', href: 'profile' },
   ]
 
