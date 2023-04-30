@@ -9,6 +9,10 @@ import Home from "./pages/Home"
 import PlayerPage from "./pages/PlayerPage";
 
 import { UserStore } from "./context/UserStore";
+import TeamSearchPage from "./pages/TeamSearchPage";
+import TeamPage from "./pages/TeamPage";
+import MatchesPage from "./pages/MatchesPage";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -20,8 +24,13 @@ function App() {
         <Route path="/login" element={userData !== null ? <Navigate to="/" />  : <Login />}  />
         <Route path="/login" element={<Login />} />
         <Route path="/player-search" element={userData === null ? <Navigate to="/login" />  : <PlayerSearchPage />} />
+        <Route path="/player-search" element={<PlayerSearchPage />} />
+        <Route path="/team-search" element={<TeamSearchPage />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/profile" element={<Profile />} />
         <Route exact path="/player/:player_name/:player_api_id" element = {<PlayerPage />} />
+        <Route exact path="/team/:team_name/:team_api_id" element = {<TeamPage />} />
+        <Route path="/matches"element={userData === null ? <Navigate to="/login" />  : <MatchesPage />} />
         {/* 👇️ only match this when no other routes match */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>

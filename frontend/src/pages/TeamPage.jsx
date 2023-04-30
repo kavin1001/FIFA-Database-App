@@ -2,29 +2,28 @@ import axios from "axios";
 import React, {useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
 import Nav from '../components/Nav';
-import StatsDashboard from "../components/PlayerPageComponents/PlayerStatsTable";
+import StatsDashboard from "../components/TeamPageComponents/TeamStatsTable";
+import Attackers from "../components/TeamPageComponents/TeamAttackers";
 
-function PlayerPage() {
+function TeamPage() {
     
     // State variables to maintain the player api id
-    const [playerAttributes, setPlayerAttributes] = useState([]);
+    const [teamAttributes, setTeamAttributes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [seasons, setSeasons] = useState([]);
     const [season, setSeason] = useState(0);
     const [levels, setLevels] = useState([]);
     let coveredYears = [];
 
-    let { player_api_id } = useParams();
+    let { team_api_id } = useParams();
 
-    let { player_name } = useParams();
+    let { team_name } = useParams();
 
-    console.log("Player API ID on the player page is:", player_api_id);
-
-    function getSeasons(playerData) {
-        for (let i = 0; i < playerData.length; i++) {
-            if (!coveredYears.includes(playerData[i].date.slice(0, 4))) {
-                coveredYears.push(playerData[i].date.slice(0, 4));
-                seasons.push([playerData[i].date.slice(0, 4), i]);
+    function getSeasons(teamData) {
+        for (let i = 0; i < teamData.length; i++) {
+            if (!coveredYears.includes(teamData[i].date.slice(0, 4))) {
+                coveredYears.push(teamData[i].date.slice(0, 4));
+                seasons.push([teamData[i].date.slice(0, 4), i]);
             }
         }
     }
@@ -42,13 +41,13 @@ function PlayerPage() {
           }, 500);
     }
 
-    // The route to get the player attributes
+    // The route to get the team attributes
     useEffect(() => {
         axios
-            .get(`http://localhost:8080/api/player/playerAttributes/${player_api_id}`)
+            .get(`http://localhost:8080/api/team/teamAttributes/${team_api_id}`)
             .then((res) => {
                 console.log(res.data);
-                setPlayerAttributes(res.data);
+                setTeamAttributes(res.data);
                 getSeasons(res.data)
                 updateLevels(seasons);
                 wait();
@@ -58,8 +57,6 @@ function PlayerPage() {
             });
     }, []);
 
-    console.log("levels are:", levels)  
-
     return (
         loading ? 
         <div>
@@ -67,17 +64,25 @@ function PlayerPage() {
         </div> :
         <div>
             <Nav />
-            <h1 className="font-bold text-5xl my-10 text-center"> {player_name}</h1>
+            <h1 className="font-bold text-5xl my-10 text-center"> {team_name}</h1>
             <StatsDashboard 
                 levels={levels}
-                playerAttributes={playerAttributes} 
+                playerAttributes={teamAttributes} 
                 seasons ={seasons} 
                 currSeason = {season} 
                 setSeason={setSeason} 
                 setLoading={setLoading}
             />
+            <Attackers 
+                levels={levels}
+                playerAttributes={teamAttributes} 
+                seasons ={seasons} 
+                currSeason = {season} 
+                setSeason={setSeason} 
+                setLoading={setLoading}
+                teamid = {team_api_id} />
         </div>
     );
 }
 
-export default PlayerPage;
+export default TeamPage;

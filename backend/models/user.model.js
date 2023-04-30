@@ -7,10 +7,10 @@ console.log(process.env.AWS_SECRET_ACCESS_KEY);
 
 const config = {
   region: "us-east-1",
-  accessKeyId: "ASIATB245AOUG622HK3F",
-  secretAccessKey: "SeUo6rQu1oVyHPhKx8EIogfELw/JXpiK3/ehxRw8",
+  accessKeyId: "ASIATB245AOUIMLORKQL",
+  secretAccessKey: "bcTEnjtupT5aRlih+v4hCZkE2VoGUDW+yyAT36Iw",
   sessionToken:
-    "FwoGZXIvYXdzEIz//////////wEaDDIJ+Ihf6pOOXmBjjiLGAZm8YleDi8vxPyjqxgdMc++57kYMMSMyEw1nwOd9hI2iWWyGaFjfsRA1hRkcZyuUxy5WQh+tLzS55D0Mqt/4pb6P81FC27zVH1IviVbM18lybOs/UH6wZIGcAAQqxqqizkF0aJfC1CssDJsIKlmd1sk5mHZl4zX9Cr6FKp3Rs0kSlzg6/wWj35KvXiB8y3R2/wde1fEg46SLdtj+fmtHIIT6DZNGhk0ERy2Dq4fduM8Uue+O4+oHocDoCXrI9Dg2UymHwOXqEijp9MahBjItyLnFkd72NTlJnSr2xmblN48E4p6XqL3Q2Yj9AIo/xW02UtrZvePXPyN5if2c",
+    "FwoGZXIvYXdzEDwaDP2IQuHSMNWK3aZ77yLGAYZtCKki/EZi5a4sDGb3prRTnt0XxVi6zJOr/IvRfaOcK//i15ZIV6kLjBjGJZ/4KPL3ZbI4Tvm3iLkLLVZVpWA0XdcegSPMaV1TgCp49x/K2DSgsFlZcENaxm74kJbYmmehAwVYTRwxA98MYji7iOidVvYkkM55BoIVXEHkAXwaB1ke3qEt38oE2GvIfltqX+D0X6u++8DDQOL/rTGRUY1QKsr4rZyKDUvSQLg3TNdsV1HPyUx9YTFcTCJHTMi7nbRQaqt92yjq56WiBjItXBUgi24OTyhCVI8QTAD1FuWolJPAPkkAM4CfB6HHZoRzOFaAdoqAKGPZms1o",
 };
 
 var db = new AWS.DynamoDB(config);

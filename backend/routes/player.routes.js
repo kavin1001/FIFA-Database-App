@@ -1,15 +1,15 @@
 const mysql = require("mysql");
-const config = require("../config.json");
 const { Router } = require("express");
 const playerRouter = Router();
 
 const connection = mysql.createConnection({
-  host: config.rds_host,
-  user: config.rds_user,
-  password: config.rds_password,
-  port: config.rds_port,
-  database: config.rds_db,
-});
+  host: process.env.REACT_APP_RDS_HOST,
+  user: process.env.REACT_APP_RDS_USER,
+  password: process.env.REACT_APP_RDS_PASSWORD,
+  port: process.env.REACT_APP_RDS_PORT,
+  database: process.env.REACT_APP_RDS_DB,
+ });
+ 
 connection.connect((err) => err && console.log(err));
 
 // Get all the players to display on the search page
@@ -18,7 +18,6 @@ playerRouter.get("/playerList", async (req, res) => {
     `
   SELECT *
   FROM Player
-  LIMIT 100
   `,
     (err, data) => {
       if (err || data.length === 0) {
@@ -49,6 +48,25 @@ playerRouter.get("/playerAttributes/:id", async (req, res) => {
     }
   );
 });
+
+playerRouter.get("/playerLazyScroll/:page", async (req, res) => {
+  connection.query(
+    `
+  SELECT *
+  FROM Player
+  LIMIT 100 OFFSET ${req.params.page * 100}
+  `,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+}
+);
 
 module.exports = {
   playerRouter,

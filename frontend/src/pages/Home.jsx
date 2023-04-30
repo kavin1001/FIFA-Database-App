@@ -2,9 +2,9 @@ import Banner from "../images/homepage_banner.png"
 
 const links = [
     { name: 'Players', href: '/player-search' },
-    { name: 'Teams', href: '#' },
-    { name: 'Matches', href: '#' },
-    { name: 'User Profile', href: '#' },
+    { name: 'Teams', href: 'team-search' },
+    { name: 'Matches', href: 'matches' },
+    { name: 'User Profile', href: 'profile' },
   ]
 
 //   py-24 sm:py-32
