@@ -71,11 +71,13 @@ function MatchesPage() {
             {`flex items-center flex-col
             visibility: ${loadedDropdown && loadedTable ? 'visible': 'hidden'}
             `}>
-                <LeagueDropdown 
-                    setLeague = {setLeague}
-                    setLoaded = {setLoadedDropdown}
-                />
-                <div className = 'w-96'>
+                <div className='my-4'>
+                    <LeagueDropdown 
+                        setLeague = {setLeague}
+                        setLoaded = {setLoadedDropdown}
+                    />
+                </div>
+                <div className='w-96 border-2 rounded-lg'>
                     <Datepicker 
                         value={dateValue} 
                         onChange={handleDateValueChange} 
@@ -83,15 +85,17 @@ function MatchesPage() {
                         maxDate={new Date()}
                     /> 
                 </div>
-                <MatchesTable
-                // NEED TO CHANGE PROCESSING HERE
-                    leagueRoute = {leagueRoute}
-                    dateRoute = {dateRoute}
-                    columns = {matchesColumns}
-                    startDate = {dateValue.startDate}
-                    endDate = {dateValue.endDate}
-                    setLoaded = {setLoadedTable}
-                />
+                <div className='my-4'>
+                    <MatchesTable
+                    // NEED TO CHANGE PROCESSING HERE
+                        leagueRoute = {leagueRoute}
+                        dateRoute = {dateRoute}
+                        columns = {matchesColumns}
+                        startDate = {dateValue.startDate}
+                        endDate = {dateValue.endDate}
+                        setLoaded = {setLoadedTable}
+                    />
+                </div>
             </div>
         </>
     )
