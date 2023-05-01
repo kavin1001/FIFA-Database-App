@@ -3,7 +3,7 @@ import { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStore } from "../context/UserStore";
 import { useGoogleLogin } from '@react-oauth/google';
-import FacebookLogin from '@greatsumini/react-facebook-login';
+import FacebookLogin  from '@greatsumini/react-facebook-login';
 import axios from "axios";
 
 
@@ -13,6 +13,8 @@ function Login() {
   const [password, setPassword] = useState("");
   const [ user, setUser ] = useState([]);
   const navigate = useNavigate();
+
+  const appId = '148909804818213';
 
   const errorMessage = (error) => {
       console.log(error);
@@ -39,10 +41,6 @@ const signInWithGoogle = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
 });
-
-const signInWithFacebok = () => {
-    console.log("Facebook login");
-};
 
   useEffect(
     () => {
@@ -95,7 +93,10 @@ const signInWithFacebok = () => {
         <button class="w-64 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" onClick={() => signInWithGoogle()}>Sign in with Google</button>
         <FacebookLogin
           className="w-64 ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
-          appId="148909804818213"
+          appId={appId}
+          initParams={{
+            version: 'v10.0',
+          }}
           onSuccess={(response) => {
             console.log('Login Success!', response);
           }}
