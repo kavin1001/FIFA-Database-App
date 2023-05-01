@@ -28,7 +28,7 @@ export const UserStore = create(
           return;
         }
       },
-      logout: async (username) => {
+      logout2: async (username) => {
         await axios.get(
           "http://localhost:8080/api/user/logout",
           {

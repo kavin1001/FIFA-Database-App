@@ -1,13 +1,24 @@
 import React from "react";
 import Nav from "../components/Nav";
+import Loading from "../components/loading";
 import { UserStore } from "../context/UserStore";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Profile() {
     const { userData, thirdPartySignOn } = UserStore();
+    const { user, isAuthenticated, isLoading } = useAuth0();
 
     const imageURL = userData.picture;
 
-    if (userData && !thirdPartySignOn) {
+    console.log("User from auth0", user);
+
+    if (isLoading) {
+        <div class="flex h-screen items-center justify-center">
+               <Loading/>
+        </div>
+    }
+
+    if (userData && !thirdPartySignOn && !isAuthenticated && !isLoading) {
         return (
             <div>
             <Nav/>
@@ -86,11 +97,26 @@ function Profile() {
                 </div>
             </div>
         );
-    } else {
-        <div>
-            <h1 className="font-bold text-center">Loading</h1>
-        </div>
+    } else if(isAuthenticated) {
+        return (
+            <div>
+            <Nav/>
+                <div class="w-full max-w-lg mx-auto mt-12">
+                <p className="text-3xl text-center font-bold mb-6">Your Profile Page</p>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                        <div class="w-full px-3">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-username">
+                                Email
+                            </label>
+                            <p>{user.email}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ); 
     }
 }
 
 export default Profile;
+
+// Xiangrui@420

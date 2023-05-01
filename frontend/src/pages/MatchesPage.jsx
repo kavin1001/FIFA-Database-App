@@ -6,6 +6,7 @@ import MatchesTable from "../components/MatchesPageComponents/MatchesTable";
 import LeagueDropdown from "../components/MatchesPageComponents/LeagueDropdown";
 import Nav from '../components/Nav';
 import Datepicker from "react-tailwindcss-datepicker"; 
+import Loading from "../components/loading";
 
 const matchesColumns = [
     {
@@ -109,8 +110,8 @@ function MatchesPage() {
         <>
             <Nav />
             {!loadedDropdown || !loadedTable ?
-            <div>
-                <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
+            <div class="flex h-screen items-center justify-center">
+               <Loading/>
             </div>
             :
             <></>
