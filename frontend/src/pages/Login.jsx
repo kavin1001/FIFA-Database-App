@@ -2,7 +2,8 @@
 import { useState, useEffect, } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserStore } from "../context/UserStore";
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
+import FacebookLogin from '@greatsumini/react-facebook-login';
 import axios from "axios";
 
 
@@ -34,10 +35,14 @@ function Login() {
     }
   }
 
-  const signInWithGoogle = useGoogleLogin({
+const signInWithGoogle = useGoogleLogin({
     onSuccess: (codeResponse) => setUser(codeResponse),
     onError: (error) => console.log('Login Failed:', error)
 });
+
+const signInWithFacebok = () => {
+    console.log("Facebook login");
+};
 
   useEffect(
     () => {
@@ -87,7 +92,20 @@ function Login() {
         </div>
       </form>
       <div className="flex justify-center">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" onClick={() => signInWithGoogle()}>Sign in with Google 🚀 </button>    
+        <button class="w-64 mr-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline" onClick={() => signInWithGoogle()}>Sign in with Google</button>
+        <FacebookLogin
+          className="w-64 ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+          appId="148909804818213"
+          onSuccess={(response) => {
+            console.log('Login Success!', response);
+          }}
+          onFail={(error) => {
+            console.log('Login Failed!', error);
+          }}
+          onProfileSuccess={(response) => {
+            console.log('Get Profile Success!', response);
+          }}
+        />    
       </div>
     </div>
   );
