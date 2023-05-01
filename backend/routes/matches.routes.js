@@ -81,7 +81,7 @@ matchRouter.get("/seasonMatches/:season", async (req, res) => {
 
 matchRouter.get("/dateMatches/topPlayers/:startDate", async (req, res) => {
   connection.query(`
-    WITH Players AS (
+  WITH Players AS (
     SELECT M.id AS m_id, country_id, league_id, season, YEAR(M.date) AS year, M.date as date_date,
     M.home_team_api_id AS home_api, M.away_team_api_id AS away_api, home_team_goal, away_team_goal,
     PHA7.player_api_id AS p7_api, PHA7.overall_rating AS p7_or, PHA9.player_api_id AS p9_api, PHA9.overall_rating AS p9_or,
@@ -91,21 +91,23 @@ matchRouter.get("/dateMatches/topPlayers/:startDate", async (req, res) => {
     JOIN Player_Attributes PHA9 on M.home_player_9 = PHA9.player_api_id
     JOIN Player_Attributes PHA10 on M.home_player_10 = PHA10.player_api_id
     JOIN Player_Attributes PHA11 on M.home_player_11 = PHA11.player_api_id
-    WHERE YEAR(M.date) = LEFT('${req.params.startDate}', 4) AND
-          YEAR(PHA7.date) = LEFT('${req.params.startDate}', 4) AND YEAR(PHA9.date) = LEFT('${req.params.startDate}', 4) AND
-          YEAR(PHA10.date) = LEFT('${req.params.startDate}', 4) AND YEAR(PHA11.date) = LEFT('${req.params.startDate}', 4)
+    WHERE DATE(M.date) >= '${req.params.startDate}' AND DATE(M.date) <= ADDDATE(DATE(M.date), 31*6) AND
+          DATE(PHA7.date) >= '${req.params.startDate}' AND DATE(PHA7.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA9.date) >= '${req.params.startDate}' AND DATE(PHA9.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA10.date) >= '${req.params.startDate}' AND DATE(PHA10.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA11.date) >= '${req.params.startDate}' AND DATE(PHA11.date) <= ADDDATE('${req.params.startDate}', 31*6)
     ), Player_Merged AS (
-    SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p7_api AS p_api, p7_or as p_or, date_date
-    FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
-    UNION
-    SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p9_api AS p_api, p9_or as p_or, date_date
-    FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
-    UNION
-    SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p10_api AS p_api, p10_or as p_or, date_date
-    FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
-    UNION
-    SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p11_api AS p_api, p11_or as p_or, date_date
-    FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
+        SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p7_api AS p_api, p7_or as p_or, date_date
+        FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
+        UNION
+        SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p9_api AS p_api, p9_or as p_or, date_date
+        FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
+        UNION
+        SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p10_api AS p_api, p10_or as p_or, date_date
+        FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
+        UNION
+        SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p11_api AS p_api, p11_or as p_or, date_date
+        FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
     )
     SELECT m_id, country_id, league_id, season, year, home_api, away_api, T1.team_long_name as home_name, T2.team_long_name as away_name,
           home_team_goal, away_team_goal, p_api, P.player_name as best_home_player, MAX(p_or) AS best_home_player_overall_rating, date_date
@@ -142,7 +144,7 @@ matchRouter.get("/dateMatches/:startDate/:endDate", async (req, res) => {
 
 matchRouter.get("/dateMatches/topPlayers/:startDate/:league", async (req, res) => {
   connection.query(`
-  WITH Players AS (
+    WITH Players AS (
     SELECT M.id AS m_id, country_id, league_id, season, YEAR(M.date) AS year, M.date as date_date,
     M.home_team_api_id AS home_api, M.away_team_api_id AS away_api, home_team_goal, away_team_goal,
     PHA7.player_api_id AS p7_api, PHA7.overall_rating AS p7_or, PHA9.player_api_id AS p9_api, PHA9.overall_rating AS p9_or,
@@ -152,9 +154,11 @@ matchRouter.get("/dateMatches/topPlayers/:startDate/:league", async (req, res) =
     JOIN Player_Attributes PHA9 on M.home_player_9 = PHA9.player_api_id
     JOIN Player_Attributes PHA10 on M.home_player_10 = PHA10.player_api_id
     JOIN Player_Attributes PHA11 on M.home_player_11 = PHA11.player_api_id
-    WHERE YEAR(M.date) = LEFT('${req.params.startDate}', 4) AND
-          YEAR(PHA7.date) = LEFT('${req.params.startDate}', 4) AND YEAR(PHA9.date) = LEFT('${req.params.startDate}', 4) AND
-          YEAR(PHA10.date) = LEFT('${req.params.startDate}', 4) AND YEAR(PHA11.date) = LEFT('${req.params.startDate}', 4) AND M.league_id = ${req.params.league}
+    WHERE DATE(M.date) >= '${req.params.startDate}' AND DATE(M.date) <= ADDDATE(DATE(M.date), 31*6) AND
+          DATE(PHA7.date) >= '${req.params.startDate}' AND DATE(PHA7.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA9.date) >= '${req.params.startDate}' AND DATE(PHA9.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA10.date) >= '${req.params.startDate}' AND DATE(PHA10.date) <= ADDDATE('${req.params.startDate}', 31*6) AND
+          DATE(PHA11.date) >= '${req.params.startDate}' AND DATE(PHA11.date) <= ADDDATE('${req.params.startDate}', 31*6) AND M.league_id=${req.params.league}
     ), Player_Merged AS (
         SELECT DISTINCT m_id, country_id, league_id, season, year, home_api, away_api, home_team_goal, away_team_goal, p7_api AS p_api, p7_or as p_or, date_date
         FROM Players WHERE year = LEFT('${req.params.startDate}', 4)
@@ -174,7 +178,7 @@ matchRouter.get("/dateMatches/topPlayers/:startDate/:league", async (req, res) =
     JOIN Team T1 on home_api=T1.team_api_id
     JOIN Team T2 on away_api=T2.team_api_id
     JOIN Player P on p_api=P.player_api_id
-    GROUP BY (p_api);
+    GROUP BY (p_api); 
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
