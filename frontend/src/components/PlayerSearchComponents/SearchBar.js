@@ -13,6 +13,7 @@ export default function Search(props) {
 
   function handleSearch(event) {
     console.log("Search value is: ", event.currentTarget.value);
+    props.setTeams(1);
     if (props.searchState) {
       props.updateSearchQuery("");
       props.setSearchState(false);
