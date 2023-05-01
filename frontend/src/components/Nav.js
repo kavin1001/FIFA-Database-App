@@ -2,9 +2,9 @@ import { UserStore } from "../context/UserStore";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
-
 export default function Nav() {
-  const { setUserData, userData, logout2, thirdPartySignOn, setThirdParty } = UserStore();
+  const { setUserData, userData, logout2, thirdPartySignOn, setThirdParty } =
+    UserStore();
   const { user, logout, isAuthenticated, isLoading, error } = useAuth0();
   const navigate = useNavigate();
 
@@ -14,11 +14,11 @@ export default function Nav() {
       setThirdParty(false);
       setUserData(null);
       navigate("/login");
-    } else if (isAuthenticated){
+    } else if (isAuthenticated) {
       setUserData(null);
       await logout({ returnTo: window.location.origin });
       navigate("/login");
-    } else{
+    } else {
       await logout2(userData.username);
       navigate("/login");
     }

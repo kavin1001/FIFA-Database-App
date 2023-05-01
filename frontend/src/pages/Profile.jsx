@@ -11,6 +11,10 @@ function Profile() {
     const imageURL = userData.picture;
 
     console.log("User from auth0", user);
+    console.log("User data from context", userData);
+    console.log("Third party sign on", thirdPartySignOn);
+    console.log("Is authenticated", isAuthenticated);
+    console.log("Is loading", isLoading);
 
     if (isLoading) {
         <div class="flex h-screen items-center justify-center">
