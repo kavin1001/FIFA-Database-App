@@ -87,7 +87,6 @@ function MatchesPage() {
                 </div>
                 <div className='my-4'>
                     <MatchesTable
-                    // NEED TO CHANGE PROCESSING HERE
                         leagueRoute = {leagueRoute}
                         dateRoute = {dateRoute}
                         columns = {matchesColumns}
