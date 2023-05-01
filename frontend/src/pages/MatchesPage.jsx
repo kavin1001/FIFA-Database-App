@@ -61,11 +61,11 @@ const matchesTopPlayerColumns = [
     },
     {
         field: 'best_home_player',
-        headerName: 'Top Player'
+        headerName: 'Top Home Attacker'
     },
     {
         field: 'best_home_player_overall_rating',
-        headerName: 'Top Player Rating'
+        headerName: 'Player Rating'
     }
 ]
 
@@ -156,7 +156,7 @@ function MatchesPage() {
                         </label>
                     </div>
                 </div>
-                <div className='w-96 border-2 rounded-lg'>
+                <div className='w-96 border-2 rounded-lg my-4'>
                     <Datepicker 
                         value={dateValue} 
                         onChange={handleDateValueChange} 
@@ -165,7 +165,12 @@ function MatchesPage() {
                         asSingle={topPlayer ? true : false}
                     /> 
                 </div>
-                <div className='my-4'>
+                {topPlayer && (
+                    <h1 className="text-sm font-sans font-bold">
+                        (Matches For 6 Months After...)
+                    </h1>
+                )}
+                <div className='my-4 mx-4'>
                     <MatchesTable
                         leagueRoute = {leagueRoute}
                         dateRoute = {dateRoute}
