@@ -98,7 +98,7 @@ matchRouter.get("/dateMatches/topPlayers/:startDate", async (req, res) => {
     JOIN Team T2 on away_api=T2.team_api_id
     JOIN Player P on p_api=P.player_api_id
     WHERE DATE(date_date) >= '${req.params.startDate}' AND DATE(date_date) <= ADDDATE(DATE('${req.params.startDate}'), 31*6)
-    GROUP BY (home_api); 
+    GROUP BY (home_api);
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -162,7 +162,7 @@ matchRouter.get("/dateMatches/topPlayers/:startDate/:league", async (req, res) =
     JOIN Team T2 on away_api=T2.team_api_id
     JOIN Player P on p_api=P.player_api_id
     WHERE DATE(date_date) >= '${req.params.startDate}' AND DATE(date_date) <= ADDDATE(DATE('${req.params.startDate}'), 31*6)
-    GROUP BY (home_api); 
+    GROUP BY (home_api);
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
