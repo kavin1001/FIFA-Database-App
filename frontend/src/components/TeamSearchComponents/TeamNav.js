@@ -1,5 +1,6 @@
 import React from "react";
 import Search from "./TeamSearchBar";
+import AgeSelector from "./AgeSelector";
 
 export default function Nav(props) {
   return (
@@ -8,6 +9,10 @@ export default function Nav(props) {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold py-6 px-4">Team Search</h1>
           <div className="flex items-center px-2">
+            <div>
+              <p>Age filter</p>
+              <AgeSelector setAge={props.setAge} />
+            </div>
             <Search updateSearchQuery={props.updateSearchQuery} />
           </div>
         </div>
