@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { AppContext } from "./TeamRoot";
 import Team from "./Team";
+import axios from "axios";
 
 export default function Courses(props) {
   // Redifining the type of searchString from object to string
@@ -8,11 +9,10 @@ export default function Courses(props) {
     props.searchString = "";
   }
 
-  // The global difficulty state that is set in the DifficultyFilter component
   const { teams } = useContext(AppContext);
 
   // Displayed courses is updated based on the search string such that the conditions are met
-  const displayedTeams = teams.filter(
+  let displayedTeams = teams.filter(
     (c) =>
       c.team_long_name.toLowerCase().indexOf(props.searchString.toLowerCase()) !==
       -1

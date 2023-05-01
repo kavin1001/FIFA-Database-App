@@ -122,6 +122,24 @@ teamRouter.get("/teamAttributes/:id/:year", async (req, res) => {
   );
 });
 
+// Get all the teams with a player above a certain age
+teamRouter.get("/teamFilter/:table", async (req, res) => {
+  connection.query(
+    `
+    SELECT *
+    FROM ${req.params.table}
+    `,
+    (err, data) => {
+      if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+      } else {
+        res.json(data);
+      }
+    }
+  );
+});
+
 
 module.exports = {
   teamRouter,

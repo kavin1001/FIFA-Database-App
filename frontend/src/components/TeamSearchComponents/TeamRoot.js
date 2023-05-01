@@ -9,6 +9,7 @@ export const AppContext = React.createContext(null);
 export default function AppRoot() {
   // The teams state that will be updated with the API call
   const [teams, setTeams] = useState([]);
+  const [age, setAge] = useState(0);
 
   // Show all teams
   useEffect(() => {
@@ -20,6 +21,17 @@ export default function AppRoot() {
       })
       .catch((err) => console.log("Route is not working"));
   }, []);
+
+  useEffect(() => {
+    let table = 'team_players_over_' + age
+    axios
+      .get(`http://localhost:8080/api/team/teamFilter/${table}`)
+      .then((res) => {
+        setTeams(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => console.log("Route is not working"));
+  }, [age]);
 
   // State variables to keep track of the app state globally
   const [searchQuery, setSearchQuery] = useState("");
@@ -63,12 +75,14 @@ export default function AppRoot() {
     setYear,
     setSeason,
     season,
+    age,
+    setAge
   };
 
   return (
     <AppContext.Provider value={appContextValue}>
-      <Nav updateSearchQuery={setSearchQuery} />
-      <Teams searchString={searchQuery} />
+      <Nav updateSearchQuery={setSearchQuery} age={age} setAge={setAge}/>
+      <Teams searchString={searchQuery} age={age} />
       {selectedTeam && <Popup team={selectedTeam} />}
     </AppContext.Provider>
   );
