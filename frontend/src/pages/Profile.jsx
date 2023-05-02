@@ -8,8 +8,6 @@ function Profile() {
     const { userData, thirdPartySignOn } = UserStore();
     const { user, isAuthenticated, isLoading } = useAuth0();
 
-    const imageURL = userData.picture;
-
     console.log("User from auth0", user);
     console.log("User data from context", userData);
     console.log("Third party sign on", thirdPartySignOn);
@@ -67,7 +65,7 @@ function Profile() {
             </div>
             </div>
         );
-    } else if (thirdPartySignOn && imageURL != null) {
+    } else if (thirdPartySignOn && userData.picture != null) {
         return (
             <div>
             <Nav/>
