@@ -22,9 +22,7 @@ function App() {
       <Routes forceRefresh={true}>
         <Route path="/" element={userData === null ? <Navigate to="/login" />  : <Home />} />
         <Route path="/login" element={userData !== null ? <Navigate to="/" />  : <Login />}  />
-        <Route path="/login" element={<Login />} />
         <Route path="/player-search" element={userData === null ? <Navigate to="/login" />  : <PlayerSearchPage />} />
-        <Route path="/player-search" element={<PlayerSearchPage />} />
         <Route path="/team-search" element={<TeamSearchPage />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<Profile />} />

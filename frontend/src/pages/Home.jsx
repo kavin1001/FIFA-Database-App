@@ -1,4 +1,5 @@
 import Banner from "../images/homepage_banner.png"
+import { UserStore } from "../context/UserStore";
 
 const links = [
     { name: 'Players', href: '/player-search' },
@@ -10,6 +11,8 @@ const links = [
 //   py-24 sm:py-32
 
 function Home() {
+  const {userData, login, setUserData, setThirdParty} = UserStore();
+  console.log("User from auth0", userData);
     return (
         <div className="relative isolate overflow-hidden bg-gray-900 h-screen w-screen py-24 sm: py-32">
       <img

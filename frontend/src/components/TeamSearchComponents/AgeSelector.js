@@ -24,7 +24,8 @@ export default function DifficultyFilter(props) {
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
-          <div className="relative flex justify-center mr-6">
+          <div className="relative flex justify-center mr-4">
+            <p className='mt-2 mr-2 justify-center'>Age Filter: </p>
             <Listbox.Button className="relative w-48 cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm">
               <span className="flex items-center">
                 <span className="ml-3 block truncate">{selected.name}</span>
