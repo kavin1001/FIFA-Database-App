@@ -1,8 +1,4 @@
-# CIS-550-Final-Project
-
-Arush Mehrotra, Spencer Mateega, Kavin Saravanan, Kevin Zhang
-
-University of Pennsylvania
+# FIFA-Database-App
 
 ## Instructions
 
