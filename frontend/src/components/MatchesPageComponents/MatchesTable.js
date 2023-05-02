@@ -18,9 +18,12 @@ function MatchesTable(props) {
                 axios.get(props.dateRoute)
             ])
             .then(axios.spread((res1, res2) => {
-                setLoaded(1);
                 setLeagueMatchData(res1.data);
                 setDateMatchData(res2.data);
+                        // wait 8 seconds
+                setTimeout(() => {
+                    setLoaded(1);
+                } , 8000);
             }))
             .catch((err) => {
                 console.log(err);
@@ -48,6 +51,10 @@ function MatchesTable(props) {
             const obj2 = dateMatchData.find(obj2 => obj1.id === obj2.id);
             return obj2 !== undefined;
         }));
+        // wait 8 seconds
+        setTimeout(() => {
+            setLoaded(1);
+        } , 8000);
     }, [leagueMatchData, dateMatchData])
     
     return (

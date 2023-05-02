@@ -17,7 +17,6 @@ export default function Nav() {
     } else if (isAuthenticated) {
       setUserData(null);
       await logout({ returnTo: window.location.origin });
-      navigate("/login");
     } else {
       await logout2(userData.username);
       navigate("/login");

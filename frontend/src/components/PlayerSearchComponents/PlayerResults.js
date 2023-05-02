@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from "react";
 import { AppContext } from "./AppRoot";
-import Course from "./Player";
+import Player from "./Player";
 import axios from "axios";
 
-export default function Courses(props) {
+export default function Players(props) {
   const [listItemsStandard, setListItemsStandard] = useState([]);
   const [listItemsTeams, setListItemsTeams] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
@@ -20,11 +20,11 @@ export default function Courses(props) {
     props.searchString = "";
   }
 
-  // The global difficulty state that is set in the DifficultyFilter component
-  const { courses } = useContext(AppContext);
+  // The global players state
+  const { players } = useContext(AppContext);
 
-  // Displayed courses is updated based on the search string such that the conditions are met
-  const displayedCourses = courses.filter(
+  // Displayed players is updated based on the search string such that the conditions are met
+  const displayedPlayers = players.filter(
     (c) =>
       c.player_name.toLowerCase().indexOf(props.searchString.toLowerCase()) !==
       -1
@@ -101,7 +101,7 @@ export default function Courses(props) {
   };
 
   const fetchData = () => {
-    mode == 0 ?
+    mode === 0 ?
       setPageStandard(pageStandard + 1)
     :
       setPageTeams(pageTeams + 1)
@@ -116,19 +116,11 @@ export default function Courses(props) {
     return (
       <div>
         <div className="mx-auto mb-12 h-full w-5/6 items-center justify-between">
-          <div className="flex flex-row justify-between">
-            {/* <div>
-            <SemSelector />
-          </div> */}
-            {/* <div>
-            <DifficultyFilter />
-          </div> */}
-          </div>
           <div className="mt-6 grid gap-4 grid-cols-3">
             {
-            mode == 0 ?
+            mode === 0 ?
               listItemsStandard.map((c) => (
-                <Course
+                <Player
                   key={c.id}
                   dept={""}
                   number={c.player_api_id}
@@ -138,7 +130,7 @@ export default function Courses(props) {
               ))
               :
               listItemsTeams.map((c) => (
-                <Course
+                <Player
                   key={c.id}
                   dept={""}
                   number={c.player_api_id}
@@ -156,17 +148,9 @@ export default function Courses(props) {
     return (
       <div>
         <div className="mx-auto mb-12 h-full w-5/6 items-center justify-between">
-          <div className="flex flex-row justify-between">
-            {/* <div>
-            <SemSelector />
-          </div> */}
-            {/* <div>
-            <DifficultyFilter />
-          </div> */}
-          </div>
           <div className="mt-6 grid gap-4 grid-cols-3">
-            {displayedCourses.map((c) => (
-              <Course
+            {displayedPlayers.map((c) => (
+              <Player
                 key={c.id}
                 dept={""}
                 number={c.player_api_id}

@@ -8,7 +8,7 @@ export default function Team(props) {
   const {showPopup, setTeam } =
     useContext(AppContext);
 
-  // Function to open the popup and show the course information
+  // Function to open the popup and show the player information
   function showTeamInfo() {
     setTeam(number);
     showPopup(true);

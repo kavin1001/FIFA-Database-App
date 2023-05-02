@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Courses from "./PlayerResults";
+import Players from "./PlayerResults";
 import Nav from "./Nav";
 import Popup from "./PlayerCard";
 
 export const AppContext = React.createContext(null);
 
 export default function AppRoot() {
-  // The courses state that will be updated with the API call
-  const [courses, setCourses] = useState([]);
+  // The players state that will be updated with the API call
+  const [players, setPlayers] = useState([]);
 
-  // Show all courses
+  // Show all players
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/player/playerList")
       .then((res) => {
-        setCourses(res.data);
+        setPlayers(res.data);
         console.log(res.data);
       })
       .catch((err) => console.log("Route is not working"));
@@ -23,43 +23,21 @@ export default function AppRoot() {
 
   // State variables to keep track of the app state globally
   const [searchQuery, setSearchQuery] = useState("");
-  const [cart, setCart] = useState([]);
-  const [openCart, setOpenCart] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
-  const [course, setCourse] = useState();
-  const [year, setYear] = useState("2020");
-  const [semester, setSemester] = useState("C");
+  const [player, setPlayer] = useState();
   const [season, setSeason] = useState("0");
   const [searchTrue, setSearchTrue] = useState(false);
   const [teams, setTeams] = useState(1);
 
-  const selectedCourse = courses.find((c) => c.player_api_id === course);
+  const selectedPlayer = players.find((c) => c.player_api_id === player);
 
-  console.log("Course is: ", course);
-  console.log("Selected course is: ", selectedCourse);
+  console.log("Player is: ", player);
+  console.log("Selected player is: ", selectedPlayer);
   // Functions to update the states
 
-  // Removes a course from the cart
-  function removeItemFromCart(id) {
-    setCart(cart.filter((item) => item.number !== id));
-  }
-
-  // Adds a course to the cart
-  function addItemToCart(id) {
-    const newCourse = courses.find((c) => c.number === id);
-    if (!cart.includes(newCourse)) {
-      setCart([...cart, newCourse]);
-    }
-  }
-
-  // Shows or hides the cart
-  function showCart(state) {
-    setOpenCart(state);
-  }
-
-  // Sets the course to the state
-  function chooseCourse(course) {
-    setCourse(course);
+  // Sets the player to the state
+  function choosePlayer(player) {
+    setPlayer(player);
   }
 
   // Shows or hides the popup
@@ -72,33 +50,15 @@ export default function AppRoot() {
     setSearchQuery(query);
   };
 
-  // Since the API needs A,B, or C instead of the actual semester
-  function updateSemester(sem) {
-    if (sem === "Spring") {
-      setSemester("A");
-    } else {
-      setSemester("C");
-    }
-  }
-
   const appContextValue = {
-    cart,
-    courses,
-    showCart,
+    players,
     showPopup,
-    chooseCourse,
+    choosePlayer,
     updateSearchQuery,
     searchQuery,
-    removeItemFromCart,
-    addItemToCart,
-    openCart,
     openPopup,
-    setCourse,
-    selectedCourse,
-    updateSemester,
-    semester,
-    year,
-    setYear,
+    setPlayer,
+    selectedPlayer,
     setSeason,
     season,
     searchTrue,
@@ -114,9 +74,8 @@ export default function AppRoot() {
         setTeams={setTeams}
         teams={teams}
       />
-      {/* <Cart courses={cart} /> */}
-      <Courses searchString={searchQuery} teams={teams}/>
-      {selectedCourse && <Popup course={selectedCourse} />}
+      <Players searchString={searchQuery} teams={teams} />
+      {selectedPlayer && <Popup player={selectedPlayer} />}
     </AppContext.Provider>
   );
 }

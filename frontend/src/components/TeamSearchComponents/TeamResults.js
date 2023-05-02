@@ -3,7 +3,7 @@ import { AppContext } from "./TeamRoot";
 import Team from "./Team";
 import axios from "axios";
 
-export default function Courses(props) {
+export default function Teams(props) {
   // Redifining the type of searchString from object to string
   if (typeof searchString === "object") {
     props.searchString = "";
@@ -11,7 +11,7 @@ export default function Courses(props) {
 
   const { teams } = useContext(AppContext);
 
-  // Displayed courses is updated based on the search string such that the conditions are met
+  // Displayed teams is updated based on the search string such that the conditions are met
   let displayedTeams = teams.filter(
     (c) =>
       c.team_long_name.toLowerCase().indexOf(props.searchString.toLowerCase()) !==

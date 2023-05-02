@@ -2,7 +2,7 @@ import React from "react";
 
 export default function InfoTable(props) {
 
-  // Rendering the table with the course information
+  // Rendering the table with the team information
   return (
     <div className="overflow-hidden bg-white shadow sm:rounded-lg">
       <div className="px-4 py-5 sm:px-6">

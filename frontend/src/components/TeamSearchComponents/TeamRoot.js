@@ -37,15 +37,13 @@ export default function AppRoot() {
   const [searchQuery, setSearchQuery] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
   const [team, setTeam] = useState();
-  const [year, setYear] = useState("2020");
-  const [semester, setSemester] = useState("C");
   const [season, setSeason] = useState("0");
 
   const selectedTeam = teams.find((t) => t.team_api_id === team);
 
   // Functions to update the states
 
-  // Sets the course to the state
+  // Sets the team to the state
   function chooseTeam(team) {
     setTeam(team);
   }
@@ -70,9 +68,6 @@ export default function AppRoot() {
     openPopup,
     setTeam,
     selectedTeam,
-    semester,
-    year,
-    setYear,
     setSeason,
     season,
     age,

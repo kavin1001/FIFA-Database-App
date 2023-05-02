@@ -7,10 +7,9 @@ console.log(process.env.AWS_SECRET_ACCESS_KEY);
 
 const config = {
   region: "us-east-1",
-  accessKeyId: "ASIATB245AOUIMLORKQL",
-  secretAccessKey: "bcTEnjtupT5aRlih+v4hCZkE2VoGUDW+yyAT36Iw",
-  sessionToken:
-    "FwoGZXIvYXdzEDwaDP2IQuHSMNWK3aZ77yLGAYZtCKki/EZi5a4sDGb3prRTnt0XxVi6zJOr/IvRfaOcK//i15ZIV6kLjBjGJZ/4KPL3ZbI4Tvm3iLkLLVZVpWA0XdcegSPMaV1TgCp49x/K2DSgsFlZcENaxm74kJbYmmehAwVYTRwxA98MYji7iOidVvYkkM55BoIVXEHkAXwaB1ke3qEt38oE2GvIfltqX+D0X6u++8DDQOL/rTGRUY1QKsr4rZyKDUvSQLg3TNdsV1HPyUx9YTFcTCJHTMi7nbRQaqt92yjq56WiBjItXBUgi24OTyhCVI8QTAD1FuWolJPAPkkAM4CfB6HHZoRzOFaAdoqAKGPZms1o",
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  sessionToken: process.env.AWS_SESSION_TOKEN,
 };
 
 var db = new AWS.DynamoDB(config);
