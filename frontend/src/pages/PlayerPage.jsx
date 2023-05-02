@@ -2,6 +2,7 @@ import axios from "axios";
 import React, {useEffect, useState, useContext} from "react";
 import { useParams } from "react-router";
 import Nav from '../components/Nav';
+import Loading from "../components/loading";
 import StatsDashboard from "../components/PlayerPageComponents/PlayerStatsTable";
 
 function PlayerPage() {
@@ -62,9 +63,9 @@ function PlayerPage() {
 
     return (
         loading ? 
-        <div>
-            <h1 className="font-bold text-5xl my-10 text-center">Loading...</h1>
-        </div> :
+        <div class="flex h-screen items-center justify-center">
+               <Loading/>
+            </div> :
         <div>
             <Nav />
             <h1 className="font-bold text-5xl my-10 text-center"> {player_name}</h1>
