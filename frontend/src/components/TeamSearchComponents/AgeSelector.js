@@ -1,8 +1,6 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-import { AppContext } from './TeamRoot';
-import axios from 'axios';
 
 const levels = [
     { id: 0, name: 'See All', key: 0 },
@@ -12,7 +10,7 @@ const levels = [
     { id: 50, name: '>50', key: 4 },
 ]
 
-export default function DifficultyFilter(props) {
+export default function AgeFilter(props) {
   const [selected, setSelected] = useState(levels[0])
 
   useEffect(() => {

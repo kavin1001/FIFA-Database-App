@@ -31,7 +31,7 @@ export default function Nav(props) {
               />
             </div>
             <Search updateSearchQuery={props.updateSearchQuery} searchState={props.searchState}
-        setSearchState={props.setSearchState} setTeams={props.setTeams}/>
+              setSearchState={props.setSearchState} setTeams={props.setTeams}/>
           </div>
         </div>
       </div>
